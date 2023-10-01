@@ -31,8 +31,9 @@ export default function LoginProvider(props) {
         console.log(username);
         console.log(password);
         console.log(response);
-  
+      
       validateMyUser(response.body);
+      return response;
     } catch (err) {
       console.error('Error during login:', err);
     }

@@ -25,15 +25,11 @@ function SignIn() {
   const handleSignIn = async () => {
     try {
       const response = await login(username, password);
-      
-      // Check if the response contains a token (indicating a successful login)
-      if (username && password) {
-        // Dispatch the setUser action with the username
+      console.log(response);
+      if (response.body.token) {
         dispatch(setUser(username));
-        // Navigate to the dashboard
         navigate('/dashboard');
       } else {
-        // Handle unsuccessful login (e.g., display an error message)
         console.error('Login failed:', response.body.message);
       }
     } catch (error) {
