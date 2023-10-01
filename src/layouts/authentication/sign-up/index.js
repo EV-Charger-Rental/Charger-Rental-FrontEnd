@@ -39,7 +39,7 @@ function SignUp() {
       });
 
       if (response.ok) {
-        navigate("/dashboard");
+        navigate("/authentication/sign-in");
       } else {
         // Handle error here
       }
@@ -123,27 +123,8 @@ function SignUp() {
                 onChange={handleInputChange}
               />
             </SoftBox>
-            <SoftBox display="flex" alignItems="center">
-              <Checkbox checked={agreement} onChange={handleSetAgreement} />
-              <SoftTypography
-                variant="button"
-                fontWeight="regular"
-                onClick={handleSetAgreement}
-                sx={{ cursor: "pointer", userSelect: "none" }}
-              >
-                &nbsp;&nbsp;I agree the&nbsp;
-              </SoftTypography>
-              <SoftTypography
-                component="a"
-                href="#"
-                variant="button"
-                fontWeight="bold"
-                textGradient
-              >
-                Terms and Conditions
-              </SoftTypography>
-            </SoftBox>
-            <SoftBox mb={2}>
+
+            <SoftBox mb={4} display="flex" alignItems="center" justifyContent="center">
               <SoftBox>
                 <SoftTypography
                   variant="button"
@@ -154,7 +135,9 @@ function SignUp() {
                     backgroundColor:
                       formData.role === "Provider" ? "primary.main" : "transparent",
                     color: formData.role === "Provider" ? "#fff" : "inherit",
-                    marginRight: "16px",
+                    marginRight: "auto",
+                    marginLeft: "auto",
+
                     padding: "8px 16px",
                     borderRadius: "4px",
                   }}
@@ -180,6 +163,29 @@ function SignUp() {
                 </SoftTypography>
               </SoftBox>
             </SoftBox>
+
+            
+            <SoftBox display="flex" alignItems="center">
+              <Checkbox checked={agreement} onChange={handleSetAgreement} />
+              <SoftTypography
+                variant="button"
+                fontWeight="regular"
+                onClick={handleSetAgreement}
+                sx={{ cursor: "pointer", userSelect: "none" }}
+              >
+                &nbsp;&nbsp;I agree the&nbsp;
+              </SoftTypography>
+              <SoftTypography
+                component="a"
+                href="#"
+                variant="button"
+                fontWeight="bold"
+                textGradient
+              >
+                Terms and Conditions
+              </SoftTypography>
+            </SoftBox>
+            
             <SoftBox mt={4} mb={1}>
               <SoftButton type="submit" variant="gradient" color="dark" fullWidth>
                 Sign Up

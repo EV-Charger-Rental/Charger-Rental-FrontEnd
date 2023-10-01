@@ -1,19 +1,4 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext  } from "react";
 
 // react-router components
 import { useLocation, Link } from "react-router-dom";
@@ -36,6 +21,8 @@ import SoftInput from "components/SoftInput";
 // Soft UI Dashboard React examples
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
+import { LoginContext } from '../../../context/AuthContext';
+
 
 // Custom styles for DashboardNavbar
 import {
@@ -64,6 +51,11 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
+  const { loggedIn,logout} = useContext(LoginContext);
+
+  const handleLogout = () => {
+    logout(); 
+  };
 
   useEffect(() => {
     // Setting the navbar type
@@ -137,23 +129,41 @@ function DashboardNavbar({ absolute, light, isMini }) {
 
   return (
     <AppBar
-      position={absolute ? "absolute" : navbarType}
-      color="inherit"
-      sx={(theme) => navbar(theme, { transparentNavbar, absolute, light })}
-    >
-      <Toolbar sx={(theme) => navbarContainer(theme)}>
-        <SoftBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-          <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
-        </SoftBox>
-        {isMini ? null : (
-          <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <SoftBox pr={1}>
-              <SoftInput
-                placeholder="Type here..."
-                icon={{ component: "search", direction: "left" }}
-              />
-            </SoftBox>
-            <SoftBox color={light ? "white" : "inherit"}>
+    position={absolute ? 'absolute' : navbarType}
+    color="inherit"
+    sx={(theme) => navbar(theme, { transparentNavbar, absolute, light })}
+  >
+    <Toolbar sx={(theme) => navbarContainer(theme)}>
+      <SoftBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
+        <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
+      </SoftBox>
+      {isMini ? null : (
+        <SoftBox sx={(theme) => navbarRow(theme, { isMini })}>
+          <SoftBox pr={1}>
+            <SoftInput
+              placeholder="Type here..."
+              icon={{ component: 'search', direction: 'left' }}
+            />
+          </SoftBox>
+          <SoftBox color={light ? 'white' : 'inherit'}>
+            {loggedIn ? (
+              <IconButton sx={navbarIconButton} size="small" onClick={handleLogout}>
+                <Icon
+                  sx={({ palette: { dark, white } }) => ({
+                    color: light ? white.main : dark.main,
+                  })}
+                >
+                  logout
+                </Icon>
+                <SoftTypography
+                  variant="button"
+                  fontWeight="medium"
+                  color={light ? 'white' : 'dark'}
+                >
+                  Log Out
+                </SoftTypography>
+              </IconButton>
+            ) : (
               <Link to="/authentication/sign-in">
                 <IconButton sx={navbarIconButton} size="small">
                   <Icon
@@ -166,12 +176,13 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   <SoftTypography
                     variant="button"
                     fontWeight="medium"
-                    color={light ? "white" : "dark"}
+                    color={light ? 'white' : 'dark'}
                   >
                     Sign in
                   </SoftTypography>
                 </IconButton>
               </Link>
+            )}
               <IconButton
                 size="small"
                 color="inherit"
