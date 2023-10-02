@@ -21,7 +21,7 @@ function SignUp() {
     phone: "",
     location: "",
     password: "",
-    role: "Renter", // Default role
+    role: "renter", // Default role
     chargerType: "", // New field for Charger Type
     pricePerHour: "", // New field for Price per Hour
   });
@@ -32,16 +32,29 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
+      // Create a new object with only the desired fields
+      const dataToPost = {
+        username: formData.username,
+        email: formData.email,
+        phone: formData.phone,
+        location: formData.location,
+        password: formData.password,
+        role: formData.role,
+      };
+      console.log("/////////////////",dataToPost);
+ 
       const response = await fetch("https://ev-rental.onrender.com/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
-      });
+        body: JSON.stringify(dataToPost),
+       
 
+      });
+      console.log("*******************",JSON.stringify(dataToPost));
+    
       if (response.ok) {
         // Successfully signed up, now make the provider call if the role is Provider
         if (formData.role === "Provider") {
@@ -168,12 +181,12 @@ function SignUp() {
                     cursor: "pointer",
                     userSelect: "none",
                     backgroundColor:
-                      formData.role === "Renter" ? "primary.main" : "transparent",
-                    color: formData.role === "Renter" ? "#fff" : "inherit",
+                      formData.role === "renter" ? "primary.main" : "transparent",
+                    color: formData.role === "renter" ? "#fff" : "inherit",
                     padding: "8px 16px",
                     borderRadius: "4px",
                   }}
-                  onClick={() => handleRoleChange("Renter")}
+                  onClick={() => handleRoleChange("renter")}
                 >
                   Renter
                 </SoftTypography>
