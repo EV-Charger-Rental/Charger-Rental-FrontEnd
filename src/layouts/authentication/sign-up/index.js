@@ -57,33 +57,11 @@ function SignUp() {
     
       if (response.ok) {
         // Successfully signed up, now make the provider call if the role is Provider
-        if (formData.role === "Provider") {
-          const providerResponse = await fetch("https://ev-rental.onrender.com/api/v2/charger", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              type: formData.chargerType,
-              status: "available",
-              owner_id: 1, // You can set this to the user's ID if it's the same
-              price: formData.pricePerHour,
-              Chargerlocation: formData.location,
-            }),
-          });
-
-          if (providerResponse.ok) {
-            // Handle provider creation success
-          } else {
-            // Handle provider creation error
-          }
-        }
+        
 
         navigate("/authentication/sign-in");
-      } else {
-        // Handle signup error
-      }
-    } catch (error) {
+      
+    } }catch (error) {
       console.error("Error during signup:", error);
     }
   };
@@ -211,60 +189,8 @@ function SignUp() {
               </SoftBox>
             </SoftBox>
 
-            {/* Provider options */}
-            {providerOptionsVisible && (
-              <>
-                <SoftBox mb={2}>
-                  <select
-                    name="chargerType"
-                    value={formData.chargerType}
-                    onChange={handleInputChange}
-                    style={{
-                      width: "100%",
-                      padding: "8px 12px",
-                      border: "1px solid #ccc",
-                      borderRadius: "4px",
-                      backgroundColor: "#fff",
-                      color: "#333",
-                      fontSize: "14px",
-                    }}
-                  >
-                    <option value="" disabled selected>
-                      Select Charger Type
-                    </option>
-                    <option value="Charger Type 1">Charger Type 1</option>
-                    <option value="Charger Type 2">Charger Type 2</option>
-                    <option value="Charger Type 3">Charger Type 3</option>
-                    <option value="Charger Type 4">Charger Type 4</option>
-                  </select>
-                </SoftBox>
-
-                <SoftBox mb={2}>
-                  <select
-                    name="pricePerHour"
-                    value={formData.pricePerHour}
-                    onChange={handleInputChange}
-                    style={{
-                      width: "100%",
-                      padding: "8px 12px",
-                      border: "1px solid #ccc",
-                      borderRadius: "4px",
-                      backgroundColor: "#fff",
-                      color: "#333",
-                      fontSize: "14px",
-                    }}
-                  >
-                    <option value="" disabled selected style={{ color: "#ccc" }}>
-                      Select Price per Hour
-                    </option>
-                    <option value="Price 1">$1 per hour</option>
-                    <option value="Price 2">$2 per hour</option>
-                    <option value="Price 3">$3 per hour</option>
-                    <option value="Price 4">$4 per hour</option>
-                  </select>
-                </SoftBox>
-              </>
-            )}
+         
+        
 
             <SoftBox display="flex" alignItems="center">
               <Checkbox checked={agreement} onChange={handleSetAgreement} />
