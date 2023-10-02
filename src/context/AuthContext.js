@@ -33,6 +33,7 @@ export default function LoginProvider(props) {
         console.log(response);
       
       validateMyUser(response.body);
+      console.log(response.body)
       return response;
     } catch (err) {
       console.error('Error during login:', err);
