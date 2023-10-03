@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext  } from "react";
 
 // react-router components
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -52,10 +52,13 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
   const { loggedIn,logout} = useContext(LoginContext);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout(); 
+    navigate('/authentication/sign-in');
   };
+
 
   useEffect(() => {
     // Setting the navbar type

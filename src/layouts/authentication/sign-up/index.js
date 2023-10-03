@@ -22,8 +22,6 @@ function SignUp() {
     location: "",
     password: "",
     role: "renter", // Default role
-    chargerType: "", // New field for Charger Type
-    pricePerHour: "", // New field for Price per Hour
   });
   const [providerOptionsVisible, setProviderOptionsVisible] = useState(false); // Track visibility of provider options
   const navigate = useNavigate();
@@ -33,7 +31,13 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Create a new object with only the desired fields
+      // Derive capabilities based on the selected role
+      const capabilities =
+        formData.role === "Provider"
+          ? ["read", "create", "update", "delete"]
+          : ["read", "create", "update", "delete"];
+  
+      // Create a new object with the desired fields, including capabilities
       const dataToPost = {
         username: formData.username,
         email: formData.email,
@@ -41,30 +45,26 @@ function SignUp() {
         location: formData.location,
         password: formData.password,
         role: formData.role,
+        capabilities: capabilities, // Include capabilities based on role
       };
-      console.log("/////////////////",dataToPost);
- 
+  
       const response = await fetch("https://ev-rental.onrender.com/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(dataToPost),
-       
-
       });
-      console.log("*******************",JSON.stringify(dataToPost));
-    
+  
       if (response.ok) {
         // Successfully signed up, now make the provider call if the role is Provider
-        
-
         navigate("/authentication/sign-in");
-      
-    } }catch (error) {
+      }
+    } catch (error) {
       console.error("Error during signup:", error);
     }
   };
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -80,12 +80,7 @@ function SignUp() {
       role: newRole,
     });
 
-    // Show provider options when "Provider" is selected
-    if (newRole === "Provider") {
-      setProviderOptionsVisible(true);
-    } else {
-      setProviderOptionsVisible(false);
-    }
+    
   };
 
   return (
