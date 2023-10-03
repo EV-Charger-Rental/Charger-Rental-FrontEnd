@@ -44,6 +44,8 @@ import RTL from "layouts/rtl";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+// import ChatView from "layouts/chat/chat/view/chat-view";
+import App from "./layouts/src/App";
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
@@ -142,6 +144,16 @@ const routes = [
     route: "/authentication/sign-in",
     icon: <ExitToAppIcon fontSize="small" />,
     component: <SignIn />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Chat",
+    key: "chat",
+    route: "dashboard/chat",
+    icon: <SpaceShip size="12px" />,
+    // component: <ChatView />,
+    component: <App />,
     noCollapse: true,
   },
  
