@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types'; // Import PropTypes
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -16,9 +17,16 @@ import breakpoints from 'assets/theme/base/breakpoints';
 import burceMars from 'assets/images/bruce-mars.jpg';
 import curved0 from 'assets/images/curved-images/curved0.jpg';
 
+
 function Header({ username }) {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
   const [tabValue, setTabValue] = useState(0);
+  const navigate = useNavigate();
+
+  function forwordToChat() {
+    navigate('/dashboard/chat');
+  }
+
 
   useEffect(() => {
     function handleTabsOrientation() {
@@ -90,7 +98,7 @@ function Header({ username }) {
                 sx={{ background: 'transparent' }}
               >
                 <Tab label="App" icon={<Cube />} />
-                <Tab label="Message" icon={<Document />} />
+                <Tab label="Message" icon={<Document />}   onClick= {forwordToChat}  />
                 <Tab label="Settings" icon={<Settings />} />
               </Tabs>
             </AppBar>
