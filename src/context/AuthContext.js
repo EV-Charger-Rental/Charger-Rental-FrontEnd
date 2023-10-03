@@ -1,45 +1,57 @@
 import superagent from 'superagent';
 import base64 from 'base-64';
-import jwt_decode from 'jwt-decode'; 
+import jwt_decode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 export const LoginContext = React.createContext();
 import cookie from 'react-cookies';
 
+
+
 const API = `https://ev-rental.onrender.com`;
+
 LoginProvider.propTypes = {
-    children: PropTypes.node.isRequired,
-  };
+  children: PropTypes.node.isRequired,
+};
+
 export default function LoginProvider(props) {
- 
-    console.log(props);
   const [loginStatus, setLoginStatus] = useState(false);
   const [user, setUser] = useState({});
+
+
+  const checkToken = () => {
+    const myToken = cookie.load('token');
+    if (myToken) {
+      const userFromToken = jwt_decode(myToken);
+      setUser({ ...userFromToken, token: myToken });
+      setLoginStatus(true);
+    } else {
+      setUser({});
+      setLoginStatus(false);
+    }
+  };
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   const loginFunction = async (username, password) => {
     if (!username || !password) {
       console.error('Username and password are required');
       return;
     }
-  
-    try {
 
+    try {
       const response = await superagent
-      
         .post(`${API}/signin`)
         .set('authorization', `Basic ${base64.encode(`${username}:${password}`)}`);
-        console.log(username);
-        console.log(password);
-        console.log(response);
-      
+
       validateMyUser(response.body);
-      console.log(response.body)
       return response;
     } catch (err) {
       console.error('Error during login:', err);
     }
   };
-  
 
   const logoutFunction = () => {
     setLoginStatus(false);
@@ -47,36 +59,26 @@ export default function LoginProvider(props) {
     cookie.remove('token');
     cookie.remove('username');
     cookie.remove('capabilities');
-    window.location.reload();
-
+    cookie.remove('userId');
+    
+    // window.location.reload();
   };
 
   const validateMyUser = (userData) => {
-    if (userData.user.token) {
-      const userFromToken = jwt_decode(userData.user.token);
-      setLoginStatus(true);
-      setUser(userFromToken);
-  console.log("////////////////////////////////////////////////////",userData.user.token);
-  console.log("////////////////////////////////////////////////////",userFromToken);
-
+    console.log('userDataaaaaaaaaaaa',userData)
+    if (userData.token) {
+      const userFromToken = jwt_decode(userData.token);
+      setUser({ ...userFromToken, token: userData.token });
       cookie.save('username', userFromToken.username);
       cookie.save('capabilities', userData.user.capabilities);
-      cookie.save('token', userData.user.token);
-    } else {
-      setLoginStatus(false);
-      setUser({});
-    }
-  };
-  
-
-  useEffect(() => {
-    const myToken = cookie.load('token');
-    if (myToken) {
+      cookie.save('token', userData.token);
+      cookie.save('userId',userData.user.id);
       setLoginStatus(true);
     } else {
+      setUser({});
       setLoginStatus(false);
     }
-  }, []);
+  };
 
   const can = (action) => {
     return user?.capabilities?.includes(action);

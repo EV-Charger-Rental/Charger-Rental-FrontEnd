@@ -1,59 +1,47 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
+/* eslint-disable react/prop-types */
+import React from "react";
 import Card from "@mui/material/Card";
-
-// Soft UI Dashboard React components
-import SoftBox from "components/SoftBox";
-import SoftTypography from "components/SoftTypography";
-
-// Billing page components
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 import Bill from "layouts/billing/components/Bill";
+import Button from "@mui/material/Button";
 
-function BillingInformation() {
+function BillingInformation({ userChargers }) {
   return (
     <Card id="delete-account">
-      <SoftBox pt={3} px={2}>
-        <SoftTypography variant="h6" fontWeight="medium">
-          Billing Information
-        </SoftTypography>
-      </SoftBox>
-      <SoftBox pt={1} pb={2} px={2}>
-        <SoftBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          <Bill
-            name="oliver liam"
-            company="viking burrito"
-            email="oliver@burrito.com"
-            vat="FRB1235476"
-          />
-          <Bill
-            name="lucas harper"
-            company="stone tech zone"
-            email="lucas@stone-tech.com"
-            vat="FRB1235476"
-          />
-          <Bill
-            name="ethan james"
-            company="fiber notion"
-            email="ethan@fiber.com"
-            vat="FRB1235476"
-            noGutter
-          />
-        </SoftBox>
-      </SoftBox>
+      <CardContent>
+        {/* Use flex container for alignment */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Typography variant="h6" fontWeight="medium">
+            Your Chargers
+          </Typography>
+          {/* Add Charger Button */}
+          <Button
+            variant="contained"
+            color="primary"
+            style={{
+              borderRadius: "4px",
+              marginTop:"10px",
+              color: "white",
+            }}
+          >
+            + Add Charger
+          </Button>
+        </div>
+        <Grid container spacing={2}>
+          {userChargers.map((charger, index) => (
+            <Grid item xs={12} key={index}>
+              <Bill
+                ChargerType={charger.ChargerType}
+                Chargerlocation={charger.Chargerlocation}
+                status={charger.status}
+                price={charger.price}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </CardContent>
     </Card>
   );
 }
