@@ -1,19 +1,3 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // @mui material components
@@ -24,11 +8,12 @@ import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftButton from "components/SoftButton";
 
-function Bill({ name, company, email, vat, noGutter }) {
+function Bill({ ChargerType, Chargerlocation, status, price, noGutter }) {
   return (
     <SoftBox
       component="li"
       display="flex"
+      flexDirection="column"
       justifyContent="space-between"
       alignItems="flex-start"
       bgColor="grey-100"
@@ -36,57 +21,46 @@ function Bill({ name, company, email, vat, noGutter }) {
       p={3}
       mb={noGutter ? 0 : 1}
       mt={2}
+      // text-size="24px"
     >
-      <SoftBox width="100%" display="flex" flexDirection="column">
+      <SoftBox width="100%">
+        <SoftTypography variant="button" fontWeight="medium" textTransform="capitalize" style={{ fontSize: "18px" }}>
+          {ChargerType}
+        </SoftTypography>
         <SoftBox
           display="flex"
           justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "center" }}
-          flexDirection={{ xs: "column", sm: "row" }}
-          mb={2}
+          alignItems="center"
+          mt={1}
         >
-          <SoftTypography variant="button" fontWeight="medium" textTransform="capitalize">
-            {name}
+          <SoftTypography variant="caption" color="text" fontWeight="bold"  style={{ fontSize: "14px" }} >
+            Charger Address:&nbsp;&nbsp;&nbsp;
+            <SoftTypography variant="caption" fontWeight="medium" textTransform="capitalize"  style={{ fontSize: "14px" }}>
+              {Chargerlocation}
+            </SoftTypography>
           </SoftTypography>
+          <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
+            Status:&nbsp;&nbsp;&nbsp;
+            <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
+              {status}
+            </SoftTypography>
+          </SoftTypography>
+          <SoftTypography variant="caption" color="text" fontWeight="bold"  style={{ fontSize: "14px" }}>
+            Price:&nbsp;&nbsp;&nbsp;
+            <SoftTypography variant="caption" fontWeight="medium"  style={{ fontSize: "14px" }}>
+              {price} JD
+            </SoftTypography>
+          </SoftTypography>
+        </SoftBox>
+        <SoftBox mt={1} style={{ display: 'flex', justifyContent: 'right' }}>
+          <SoftButton variant="text" color="error">
+            <Icon>delete</Icon>&nbsp;delete
+          </SoftButton>
+          <SoftButton variant="text" color="dark">
+            <Icon>edit</Icon>&nbsp;edit
+          </SoftButton>
+        </SoftBox>
 
-          <SoftBox
-            display="flex"
-            alignItems="center"
-            mt={{ xs: 2, sm: 0 }}
-            ml={{ xs: -1.5, sm: 0 }}
-          >
-            <SoftBox mr={1}>
-              <SoftButton variant="text" color="error">
-                <Icon>delete</Icon>&nbsp;delete
-              </SoftButton>
-            </SoftBox>
-            <SoftButton variant="text" color="dark">
-              <Icon>edit</Icon>&nbsp;edit
-            </SoftButton>
-          </SoftBox>
-        </SoftBox>
-        <SoftBox mb={1} lineHeight={0}>
-          <SoftTypography variant="caption" color="text">
-            Company Name:&nbsp;&nbsp;&nbsp;
-            <SoftTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-              {company}
-            </SoftTypography>
-          </SoftTypography>
-        </SoftBox>
-        <SoftBox mb={1} lineHeight={0}>
-          <SoftTypography variant="caption" color="text">
-            Email Address:&nbsp;&nbsp;&nbsp;
-            <SoftTypography variant="caption" fontWeight="medium">
-              {email}
-            </SoftTypography>
-          </SoftTypography>
-        </SoftBox>
-        <SoftTypography variant="caption" color="text">
-          VAT Number:&nbsp;&nbsp;&nbsp;
-          <SoftTypography variant="caption" fontWeight="medium">
-            {vat}
-          </SoftTypography>
-        </SoftTypography>
       </SoftBox>
     </SoftBox>
   );
@@ -99,10 +73,10 @@ Bill.defaultProps = {
 
 // Typechecking props for the Bill
 Bill.propTypes = {
-  name: PropTypes.string.isRequired,
-  company: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  vat: PropTypes.string.isRequired,
+  ChargerType: PropTypes.string.isRequired,
+  Chargerlocation: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired, // Changed to number
   noGutter: PropTypes.bool,
 };
 

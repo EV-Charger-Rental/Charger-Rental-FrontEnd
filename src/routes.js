@@ -56,6 +56,12 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
+import ChatIcon from "@mui/icons-material/Chat";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ChargerPage from './layouts/chargerPage/chargerPage';
+import ChatPage from './layouts/chatPage/chatPage';
+import Logout from './layouts/authentication/logout/logout';
 
 const routes = [
   {
@@ -65,6 +71,15 @@ const routes = [
     route: "/dashboard",
     icon: <Shop size="12px" />,
     component: <Dashboard />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Charger",
+    key: "charger",
+    route: "/charger",   // You may want to update the route as well, if necessary
+    icon: <BatteryChargingFullIcon fontSize="small" />,
+    component: <ChargerPage />,
     noCollapse: true,
   },
   {
@@ -115,20 +130,20 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    route: "/authentication/sign-in",
-    icon: <Document size="12px" />,
-    component: <SignIn />,
+    name: "Chat",
+    key: "chat",
+    route: "/chat",
+    icon: <ChatIcon size="12px" />,
+    component: <ChatPage />,
     noCollapse: true,
   },
   {
     type: "collapse",
-    name: "Sign Up",
+    name: "Sign Out",
     key: "sign-up",
-    route: "/authentication/sign-up",
-    icon: <SpaceShip size="12px" />,
-    component: <SignUp />,
+    route: "/authentication/sign-in",
+    icon: <ExitToAppIcon fontSize="small" />,
+    component: <SignIn />,
     noCollapse: true,
   },
   {
@@ -141,6 +156,8 @@ const routes = [
     component: <App />,
     noCollapse: true,
   },
+ 
+  
 ];
 
 export default routes;

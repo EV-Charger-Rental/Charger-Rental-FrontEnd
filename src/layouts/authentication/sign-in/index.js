@@ -27,6 +27,7 @@ function SignIn() {
       const response = await login(username, password);
       console.log(response);
       if (response.body.token) {
+        console.log('here is signin response.body.token',response.body.token)
         dispatch(setUser(username));
         navigate('/dashboard');
       } else {
@@ -47,7 +48,7 @@ function SignIn() {
       <SoftBox component="form" role="form">
         <SoftBox mb={2}>
           <SoftBox mb={1} ml={0.5}>
-            <SoftTypography component="label" varLaithemiant="caption" fontWeight="bold">
+            <SoftTypography component="label" varlaithemiant="caption" fontWeight="bold">
               Email
             </SoftTypography>
           </SoftBox>
