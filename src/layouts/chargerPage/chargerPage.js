@@ -4,7 +4,7 @@ import SoftBox from "components/SoftBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import BillingInformation from "layouts/billing/components/BillingInformation";
+import ChargerInformation from "./ChargerInformation/index";
 import { LoginContext } from '../../context/AuthContext'; // Import your LoginContext
 import cookie from 'react-cookies';
 
@@ -20,6 +20,12 @@ function ChargerPage() {
     }
   }, [user]); // Only fetch chargers when the user object changes
 
+  // useEffect(() => {
+  //   fetchUserChargers();
+
+  // }, [userChargers]); // Only fetch chargers when the user object changes
+
+
   const fetchUserChargers = async () => {
       const userId = cookie.load('userId');
       
@@ -32,7 +38,7 @@ function ChargerPage() {
           "Authorization": `Bearer ${user.token}`,
         },
       });
-      console.log('chargerdaatttttttttttttttttttt',response)
+    //  console.log('chargerdaatttttttttttttttttttt',response)
 
       if (response.ok) {
         const chargerData = await response.json();
@@ -46,7 +52,7 @@ function ChargerPage() {
     }
   };
 
-
+ // console.log("Main user chargerrrrr",userChargers);
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -54,7 +60,8 @@ function ChargerPage() {
         <Grid container spacing={3}>
           <Grid item xs={12} md={25}>
             {/* Step 4: Pass the userChargers data as a prop to BillingInformation */}
-            <BillingInformation userChargers={userChargers} />
+            <ChargerInformation userChargers={userChargers} />
+          
           </Grid>
         </Grid>
       </SoftBox>

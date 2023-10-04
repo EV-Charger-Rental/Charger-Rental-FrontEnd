@@ -1,29 +1,37 @@
-/* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import Bill from "layouts/billing/components/Bill";
+import ChargerCard from "../ChargerCard/index";
 import Button from "@mui/material/Button";
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import PropTypes from "prop-types";
+import InputLabel from "@mui/material/InputLabel";
+import { LoginContext } from "../../../context/AuthContext";
+import cookie from "react-cookies";
 
-function BillingInformation({ userChargers }) {
+function ChargerInformation({ userChargers }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [chargerInfo, setChargerInfo] = useState({
     ChargerType: "",
     status: "available",
     owner_id: 1,
     price: "1",
-    Chargerlocation: "amman",
+    Chargerlocation: "Amman",
   });
   const [chargers, setChargers] = useState([]);
+  const { user } = useContext(LoginContext);
+
+  // useEffect(() => {
+  //   setChargers(userChargers);
+  // }, [userChargers]);
 
   const openAddChargerDialog = () => {
     setOpenDialog(true);
@@ -33,17 +41,46 @@ function BillingInformation({ userChargers }) {
     setOpenDialog(false);
   };
 
-
-
   const handleStatusChange = (event) => {
-    setChargers({ ...chargers, Status: event.target.value });
+    setChargerInfo({ ...chargerInfo, status: event.target.value });
   };
 
+  const addCharger = async () => {
+    const userId = cookie.load("userId");
+    if (!userId) {
+      console.error("User ID not available");
+      return;
+    }
 
-  const addchargers = () => {
-    // You can add logic here to handle the new charger data
-    console.log("New Charger Data:", chargers);
-    closeAddChargerDialog();
+    chargerInfo.owner_id = parseInt(userId, 10);
+    chargerInfo.price = parseFloat(chargerInfo.price);
+
+    if (!chargerInfo.ChargerType) {
+      console.error("Charger Type is required");
+      return;
+    }
+    try {
+      const response = await fetch("https://ev-rental.onrender.com/api/v2/charger", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(chargerInfo),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Charger added successfully. Response:", responseData);
+        setChargers([...chargers, responseData]);
+        closeAddChargerDialog();
+        window.location.reload();
+      } else {
+        console.error("Error adding charger:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error during charger addition:", error);
+    }
   };
 
   const handleInputChange = (event) => {
@@ -51,6 +88,17 @@ function BillingInformation({ userChargers }) {
     setChargerInfo({ ...chargerInfo, [name]: value });
   };
 
+  const updateChargerData = useCallback((editedCharger) => {
+    setChargers((prevChargers) => {
+      const index = prevChargers.findIndex((charger) => charger.id === editedCharger.id);
+
+      if (index !== -1) {
+        prevChargers[index] = editedCharger;
+      }
+
+      return [...prevChargers];
+    });
+  }, []);
 
   return (
     <Card id="delete-account">
@@ -75,11 +123,13 @@ function BillingInformation({ userChargers }) {
         <Grid container spacing={2}>
           {userChargers.map((charger, index) => (
             <Grid item xs={12} key={index}>
-              <Bill
+              <ChargerCard
+                chargerId={charger.id}
                 ChargerType={charger.ChargerType}
                 Chargerlocation={charger.Chargerlocation}
                 status={charger.status}
                 price={charger.price}
+                updateChargerData={updateChargerData}
               />
             </Grid>
           ))}
@@ -89,8 +139,8 @@ function BillingInformation({ userChargers }) {
       <Dialog
         open={openDialog}
         onClose={closeAddChargerDialog}
-        maxWidth="md" // You can use 'xs', 'sm', 'md', 'lg', 'xl', 'false', or a specific CSS value like '600px'
-        fullWidth={true} // This will make the dialog take the full width of its container
+        maxWidth="md"
+        fullWidth={true}
       >
         <DialogTitle>Add New Charger</DialogTitle>
         <DialogContent>
@@ -103,7 +153,7 @@ function BillingInformation({ userChargers }) {
               value={chargerInfo.ChargerType}
               onChange={handleInputChange}
               displayEmpty
-              inputProps={{ 'aria-label': 'ChargerType' }}
+              inputProps={{ "aria-label": "ChargerType" }}
               sx={{ marginTop: 2 }}
             >
               <MenuItem value="">
@@ -131,9 +181,12 @@ function BillingInformation({ userChargers }) {
 
           <MenuItem>
             <div style={{ display: 'flex', alignItems: 'baseline' }}>
+              <InputLabel htmlFor="price" sx={{ paddingRight: '16px', minWidth: '80px', fontSize: '14px' }}>
+                Price
+              </InputLabel>
               <TextField
                 name="price"
-                label="Price"
+                id="price"
                 variant="outlined"
                 fullWidth
                 type="number"
@@ -145,10 +198,10 @@ function BillingInformation({ userChargers }) {
                 value={chargerInfo.price}
                 onChange={handleInputChange}
                 sx={{
-                  paddingRight: '32px',
+                  paddingRight: '20px',
                 }}
               />
-              <span style={{ fontSize: '14px', color: '#666', marginLeft: '5px' }}>JD</span>
+              <span style={{ fontSize: '14px', color: '#666', marginLeft: '0px' }}>JD</span>
             </div>
             {chargerInfo.price > 4 && (
               <div style={{ display: 'flex', alignItems: 'baseline', marginLeft: '5px' }}>
@@ -159,23 +212,37 @@ function BillingInformation({ userChargers }) {
             )}
           </MenuItem>
           <MenuItem>
-            <TextField
-              name="Chargerlocation"
-              label="Location"
-              variant="outlined"
-              fullWidth
-              value={chargerInfo.Chargerlocation}
-              onChange={handleInputChange}
-            />
+            <div style={{ display: 'flex', alignItems: 'baseline' }}>
+              <InputLabel htmlFor="Chargerlocation" sx={{ paddingRight: '16px', minWidth: '80px', fontSize: '14px' }}>
+                Location
+              </InputLabel>
+              <TextField
+                name="Chargerlocation"
+                id="Chargerlocation"
+                variant="outlined"
+                fullWidth
+                value={chargerInfo.Chargerlocation}
+                onChange={handleInputChange}
+              />
+            </div>
           </MenuItem>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeAddChargerDialog}>Cancel</Button>
-          <Button onClick={addchargers}>Add Charger</Button>
+          <Button onClick={addCharger}>Add Charger</Button>
         </DialogActions>
       </Dialog>
     </Card>
   );
 }
 
-export default BillingInformation;
+ChargerInformation.propTypes = {
+  userChargers: PropTypes.arrayOf(PropTypes.shape({
+    ChargerType: PropTypes.string.isRequired,
+    Chargerlocation: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+  })).isRequired,
+};
+
+export default ChargerInformation;
