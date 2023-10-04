@@ -20,13 +20,14 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 function ChargerCard({ ChargerType, Chargerlocation, status, price, chargerId, updateChargerData }) {
+  const userId = cookie.load("userId");
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [chargerInfo, setchargerInfo] = useState({
     ChargerType,
     Chargerlocation,
     status,
     price,
-    chargerId,
+    owner_id:userId,
   });
   const { user } = useContext(LoginContext);
 
@@ -37,12 +38,13 @@ function ChargerCard({ ChargerType, Chargerlocation, status, price, chargerId, u
       Chargerlocation,
       status,
       price,
-      chargerId,
+      owner_id:userId,
     });
   };
 
   const closeEditDialog = () => {
     setIsEditDialogOpen(false);
+    window.location.reload();
   };
 
   const handleStatusChange = (event) => {
@@ -62,7 +64,7 @@ function ChargerCard({ ChargerType, Chargerlocation, status, price, chargerId, u
       console.error('Charger Type is required');
       return;
     }
-
+console.log("###################################################",chargerId);
     try {
       const response = await fetch(`https://ev-rental.onrender.com/api/v2/charger/${chargerId}`, {
         method: "PUT",
@@ -71,10 +73,14 @@ function ChargerCard({ ChargerType, Chargerlocation, status, price, chargerId, u
           "Authorization": `Bearer ${user.token}`,
         },
         body: JSON.stringify(chargerInfo),
+      
       });
 
+      console.log(":::::::::::::::::::::::::::::::::::::::::::::", JSON.stringify(chargerInfo));
+
       if (response.ok) {
-        // Handle successful update, e.g., display a success message
+        // Handle successful update, e.g., display a success message1
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", response.body);
         console.log('Charger updated successfully');
         closeEditDialog();
 
@@ -107,6 +113,7 @@ function ChargerCard({ ChargerType, Chargerlocation, status, price, chargerId, u
       if (response.ok) {
         // Handle successful delete, e.g., update the UI or display a message
         console.log('Charger deleted successfully');
+        window.location.reload();
 
         // You can also pass a flag or some data to the parent component to indicate that the charger has been deleted
       } else {
