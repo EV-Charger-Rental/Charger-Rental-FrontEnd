@@ -20,6 +20,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 function ChargerCard({ ChargerType, Chargerlocation, status, price, chargerId, updateChargerData }) {
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",chargerId);
   const userId = cookie.load("userId");
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [chargerInfo, setchargerInfo] = useState({
@@ -53,6 +54,8 @@ function ChargerCard({ ChargerType, Chargerlocation, status, price, chargerId, u
 
   const updateCharger = async () => {
     const userId = cookie.load('userId');
+    console.log("////////////////////////////////////////////////////////////////////",userId);
+
     if (!userId) {
       console.error('User ID not available');
       return;
@@ -64,8 +67,9 @@ function ChargerCard({ ChargerType, Chargerlocation, status, price, chargerId, u
       console.error('Charger Type is required');
       return;
     }
-console.log("###################################################",chargerId);
     try {
+      console.log("###################################################",chargerId);
+
       const response = await fetch(`https://ev-rental.onrender.com/api/v2/charger/${chargerId}`, {
         method: "PUT",
         headers: {
