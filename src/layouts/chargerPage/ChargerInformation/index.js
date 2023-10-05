@@ -74,7 +74,7 @@ function ChargerInformation({ userChargers }) {
         console.log("Charger added successfully. Response:", responseData);
         setChargers([...chargers, responseData]);
         closeAddChargerDialog();
-        // window.location.reload();
+        window.location.reload();
       } else {
         console.error("Error adding charger:", response.statusText);
       }
