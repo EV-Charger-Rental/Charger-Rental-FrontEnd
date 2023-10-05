@@ -3,6 +3,10 @@ import keyBy from 'lodash/keyBy';
 import useSWR, { mutate } from 'swr';
 // utils
 import axios, { endpoints, fetcher } from '../utils/axios';
+import cookie from 'react-cookies';
+import { gridColumnsTotalWidthSelector } from '@mui/x-data-grid';
+
+
 
 // ----------------------------------------------------------------------
 
@@ -13,10 +17,42 @@ const options = {
 };
 
 export function useGetContacts() {
-  const URL = [endpoints.chat, { params: { endpoint: 'contacts' } }];
+  // const URL = [endpoints.chat, { params: { endpoint: 'contacts' } }];
+  const URL = process.env.REACT_APP_SERVER_URL + '/api/mhmd/users';
+  console.log(URL);
 
-  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, options);
+  let { data, isLoading, error, isValidating } = useSWR(URL, fetcher, options);
 
+let cuurentUser = cookie.load('username')
+
+
+function transformUserData(userData) {
+  if (!Array.isArray(userData)) {
+    return { contacts: [] };
+  }
+
+  return {
+    contacts: userData
+      .filter((user) => user.username !== cuurentUser)
+      .map((user) => ({
+        status: user.status || 'offline',
+        id: user.id || '',
+        role: user.role || '',
+        email: user.email || '',
+        name: user.username || '',
+        lastActivity: user.lastActivity || '',
+        address: user.location || '',
+        avatarUrl: user.avatarUrl || '',
+        phoneNumber: user.phone || '',
+      })),
+  };
+}
+
+  
+
+  data= transformUserData(data);
+  // console.log('>>>>>>>>>>>>',data.contacts);
+  
   const memoizedValue = useMemo(
     () => ({
       contacts: data?.contacts || [],
@@ -37,6 +73,8 @@ export function useGetConversations() {
   const URL = [endpoints.chat, { params: { endpoint: 'conversations' } }];
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, options);
+
+    console.log('conversations data',data);
 
   const memoizedValue = useMemo(() => {
     const byId = keyBy(data?.conversations, 'id') || {};

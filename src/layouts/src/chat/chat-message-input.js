@@ -16,6 +16,7 @@ import uuidv4 from '../utils/uuidv4';
 import { sendMessage, createConversation } from '../api/chat';
 // components
 import Iconify from '../components/iconify';
+import {socket} from './socketClient'
 
 
 // ----------------------------------------------------------------------
@@ -91,6 +92,12 @@ export default function ChatMessageInput({
       try {
         if (event.key === 'Enter') {
           if (message) {
+
+
+            socket.emit('send-message', 'messageFromClient')
+
+
+            
             if (selectedConversationId) {
               await sendMessage(selectedConversationId, messageData);
               // when submit the message then scroll to bottom

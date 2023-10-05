@@ -76,7 +76,16 @@ const routes = [
     component: <SignIn />,
     noCollapse: true,
   },
-
+  {
+    type: "collapse",
+    name: "Chat",
+    key: "chat",
+    route: "/chat",
+    icon: <SpaceShip size="12px" />,
+    // component: <ChatView />,
+    component: <App />,
+    noCollapse: true,
+  },
  
   
 ];

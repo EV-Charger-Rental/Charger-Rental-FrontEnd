@@ -31,6 +31,9 @@ const NAV_WIDTH = 320;
 const NAV_COLLAPSE_WIDTH = 96;
 
 export default function ChatNav({ loading, contacts, conversations, selectedConversationId }) {
+
+
+
   const theme = useTheme();
 
   const router = useRouter();
@@ -104,6 +107,8 @@ export default function ChatNav({ loading, contacts, conversations, selectedConv
   const handleClickResult = useCallback(
     (result) => {
       handleClickAwaySearch();
+
+      console.log('>>>>>>>>>>>>result', result)
 
       router.push(`${paths.dashboard.chat}?id=${result.id}`);
     },
