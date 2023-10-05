@@ -14,11 +14,10 @@ import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
-import { useSelector } from "react-redux"; // Import useSelector to access the Redux store
+import { useSelector } from "react-redux"; 
 import brand from "assets/images/logo-ct.png";
+import routes from "routes"; 
 
-// Import your application's route configuration
-import routes from "routes"; // Replace 'path-to-your-routes' with the actual path to your route configuration
 
 export default function App() {
   const [controller, dispatch] = useSoftUIController();
@@ -99,7 +98,7 @@ export default function App() {
   );
 
   return (
-    <Provider store={store}> {/* Wrap the entire application with Provider */}
+    <Provider store={store}> 
       {direction === "rtl" ? (
         <CacheProvider value={rtlCache}>
           <ThemeProvider theme={themeRTL}>
@@ -145,7 +144,7 @@ export default function App() {
           {layout === "vr" && <Configurator />}
           <Routes>
             {getRoutes(routes)}
-            <Route path="*" element={<Navigate to="/dashboard" />} />
+            <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
           </Routes>
         </ThemeProvider>
       )}
