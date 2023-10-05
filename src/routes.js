@@ -1,4 +1,4 @@
-import Dashboard from "layouts/dashboard";
+import Dashboard from "layouts/dashboard/RequestPage";
 import Tables from "layouts/tables";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
@@ -84,6 +84,15 @@ const routes = [
     icon: <SpaceShip size="12px" />,
     // component: <ChatView />,
     component: <App />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Sign Up",
+    key: "sign-up",
+    route: "/authentication/sign-up",
+    icon: <SpaceShip size="12px" />,
+    component: <SignUp />,
     noCollapse: true,
   },
  
