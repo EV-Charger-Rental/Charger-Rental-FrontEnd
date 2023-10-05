@@ -13,7 +13,7 @@ const API = `https://ev-rental.onrender.com`;
 LoginProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
+ 
 export default function LoginProvider(props) {
   const [loginStatus, setLoginStatus] = useState(false);
   const [user, setUser] = useState({});

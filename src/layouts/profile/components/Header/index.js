@@ -24,7 +24,7 @@ function Header({ username }) {
   const navigate = useNavigate();
 
   function forwordToChat() {
-    navigate('/dashboard/chat');
+    navigate('/chat');
   }
 
 

@@ -14,18 +14,41 @@ import { useGetContacts, useGetConversation, useGetConversations } from '../../a
 // components
 import { useSettingsContext } from '../../components/settings';
 //
-import ChatNav from '../chat-nav'; 
+import ChatNav from '../chat-nav';
 import ChatRoom from '../chat-room';
 import ChatMessageList from '../chat-message-list';
 import ChatMessageInput from '../chat-message-input';
 import ChatHeaderDetail from '../chat-header-detail';
 import ChatHeaderCompose from '../chat-header-compose';
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 //import style file
 import '../style.css';
+
+// for testing purposes only
+import cookie from 'react-cookies';
+
+
 
 // ----------------------------------------------------------------------
 
 export default function ChatView() {
+
+  cookie.save('username', "mohammad");
+  cookie.save('capabilities',
+    [
+      "read",
+      "create",
+      "update",
+      "delete"
+    ]);
+  cookie.save('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vaGFtbWFkIiwicm9sZSI6IlByb3ZpZGVyIiwiaWF0IjoxNjk2NDA0ODQ0fQ.AbwuiWbgCqjpayG2bvTBR52meoeQYg-R4LKnQNEui74");
+  cookie.save('userId', 1);
+  cookie.save('email',"www")
+  cookie.save('phone', "1234567890");
+
+  
+
   const router = useRouter();
 
   const { user } = useMockedUser();
@@ -58,7 +81,7 @@ export default function ChatView() {
     setRecipients(selected);
   }, []);
 
-  const details = !!conversation;
+  const details = !!conversation;//copilot can you explain this line?   
 
   const renderHead = (
     <Stack
@@ -67,6 +90,7 @@ export default function ChatView() {
       flexShrink={0}
       sx={{ pr: 1, pl: 2.5, py: 1, minHeight: 72 }}
     >
+      {console.log('>>>>>>>>>>>>>>>participants', participants)}
       {selectedConversationId ? (
         <>{details && <ChatHeaderDetail participants={participants} />}</>
       ) : (
@@ -104,6 +128,8 @@ export default function ChatView() {
     </Stack>
   );
 
+
+
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'} >
       <Typography
@@ -115,7 +141,7 @@ export default function ChatView() {
         {/* Chat */}
       </Typography>
 
-      <Stack component={Card} direction="row" sx={{ height: '72vh', marginLeft:'10%', marginRight:'-10%',marginTop:'10%' }}>
+      <Stack component={Card} direction="row" sx={{ height: '72vh', marginLeft: '10%', marginRight: '-10%', marginTop: '10%' }}>
         {renderNav}
 
         <Stack
@@ -134,7 +160,7 @@ export default function ChatView() {
               height: 1,
               overflow: 'hidden',
               borderTop: (theme) => `solid 1px ${theme.palette.divider}`,
-              
+
             }}
           >
             {renderMessages}

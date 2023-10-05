@@ -15,7 +15,8 @@ import { useMockedUser } from '../hooks/use-mocked-user';
 // components
 import Iconify from '../components/iconify';
 import CustomPopover, { usePopover } from '../components/custom-popover';
-
+import { Cookie } from '@mui/icons-material';
+import cookie from 'react-cookies';
 // ----------------------------------------------------------------------
 
 export default function ChatNavAccount() {
@@ -38,6 +39,9 @@ export default function ChatNavAccount() {
           onClick={popover.onOpen}
           sx={{ cursor: 'pointer', width: 48, height: 48 }}
         />
+        {/* add user name of the user next to the avatar  */}
+        <p className="user-name" style={{ maxWidth: '200px', fontSize: 'small', marginLeft: '5%', marginTop: '7%' }}  > {cookie.load('username')} </p>
+
       </Badge>
 
       <CustomPopover open={popover.open} onClose={popover.onClose} arrow="top-left" sx={{ p: 0 }}>
@@ -52,8 +56,8 @@ export default function ChatNavAccount() {
           }}
         >
           <ListItemText
-            primary={user?.displayName}
-            secondary={user?.email}
+            primary={cookie.load('username')}
+            secondary={cookie.load('email')}
             secondaryTypographyProps={{ component: 'span' }}
           />
 
@@ -77,6 +81,7 @@ export default function ChatNavAccount() {
                   width: 12,
                   height: 12,
                   flexShrink: 0,
+
                 },
               }}
             />
@@ -88,7 +93,10 @@ export default function ChatNavAccount() {
               onChange={handleChangeStatus}
               input={<InputBase sx={{ pl: 2 }} />}
               inputProps={{
-                sx: { textTransform: 'capitalize' },
+                sx: {
+                  textTransform: 'capitalize',
+                  marginLeft:'-30%'
+                },
               }}
             >
               {['online', 'alway', 'busy', 'offline'].map((option) => (
@@ -99,15 +107,15 @@ export default function ChatNavAccount() {
             </Select>
           </MenuItem>
 
-          <MenuItem>
+          {/* <MenuItem>
             <Iconify icon="solar:user-id-bold" width={24} />
             Profile
-          </MenuItem>
+          </MenuItem> */}
 
-          <MenuItem>
+          {/* <MenuItem>
             <Iconify icon="eva:settings-2-fill" width={24} />
             Settings
-          </MenuItem>
+          </MenuItem> */}
         </Stack>
       </CustomPopover>
     </>

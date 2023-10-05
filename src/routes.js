@@ -150,7 +150,7 @@ const routes = [
     type: "collapse",
     name: "Chat",
     key: "chat",
-    route: "dashboard/chat",
+    route: "/chat",
     icon: <SpaceShip size="12px" />,
     // component: <ChatView />,
     component: <App />,
