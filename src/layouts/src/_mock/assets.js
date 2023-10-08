@@ -15,7 +15,7 @@ export const _fullAddress = [
   '96607 Claire Square Suite 591 - St. Louis Park, HI / 40802',
   '9388 Auer Station Suite 573 - Honolulu, AK / 98024',
   '47665 Adaline Squares Suite 510 - Blacksburg, NE / 53515',
-  '989 Vernice Flats Apt. 183 - Billings, NV / 04147',
+  // '989 Vernice Flats Apt. 183 - Billings, NV / 04147',
   '91020 Wehner Locks Apt. 673 - Albany, WY / 68763',
   '585 Candelario Pass Suite 090 - Columbus, LA / 25376',
   '80988 Renner Crest Apt. 000 - Fargo, VA / 24266',

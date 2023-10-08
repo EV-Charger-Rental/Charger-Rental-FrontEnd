@@ -40,15 +40,13 @@ function RequestInformation({ userRequests }) {
               <Grid item xs={12} key={index}>
                 <ReservationCard
                  reservationId={reservation.id}
-                  charger_id={reservation. charger_id}
+                  charger_id={reservation.charger_id}
                   renter_id={reservation.renter_id}
                   Provider_id={reservation.Provider_id}
                   start_time={reservation.start_time}
                   end_time={reservation.end_time}
-                  total_price={reservation. total_price
-                  }
-                  reservation_status={reservation. reservation_status
-                  }
+                  total_price={reservation.total_price}
+                  reservation_status={reservation.reservation_status}
 
                   // updateChargerData={updateChargerData}
                 />
