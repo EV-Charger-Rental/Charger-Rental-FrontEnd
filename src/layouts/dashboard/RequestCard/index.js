@@ -17,22 +17,94 @@ import cookie from 'react-cookies';
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-
-
-function RequestCard({ charger_id, renter_id, owner_id, start_time, end_time, totalPrice}) {
+function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time, total_price, reservation_status, reservationId }) {
   const userId = cookie.load("userId");
 
-  const [reservationInfo, setreservationInfo] = useState({
+  const [reservationInfo, setReservationInfo] = useState({
     charger_id,
     renter_id,
-    owner_id,
+    Provider_id,
     start_time,
     end_time,
-    totalPrice
+    total_price,
+    reservation_status,
+    reservationId,
   });
   const { user } = useContext(LoginContext);
 
+  const updateReservationStatus = async (newStatus, charger_id) => {
+    try {
+      const updatedReservationInfo = {
+        ...reservationInfo,
+        reservation_status: newStatus,
+      };
+  
+      const response = await fetch(`https://ev-rental.onrender.com/api/v2/reservation/${reservationId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(updatedReservationInfo),
+      });
+  
+      if (response.ok) {
+        console.log(`Reservation status updated to ${newStatus}`);
+        setReservationInfo(updatedReservationInfo);
+  console.log(newStatus);
+        // Update charger status when the reservation status is "in-progress"
+        if (newStatus === 'in-progress') {
+   console.log("trueee")
+          // Call the API to update charger status to "not available"
+          const chargerResponse = await fetch(`https://ev-rental.onrender.com/api/v2/charger/${charger_id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              "Authorization": `Bearer ${user.token}`,
+            },
+            body: JSON.stringify({ status: 'not available' }), // Update charger status
+          });
+          console.log("nnnnnnnn",chargerResponse);
 
+          if (chargerResponse.ok) {
+            console.log('Charger status updated to "not available"');
+          } else {
+            console.error('Error updating charger status:', chargerResponse.statusText);
+          }
+        } else if (newStatus === 'finished') {
+          // Update charger status when the reservation status is "finished"
+          // Call the API to update charger status to "available"
+          const chargerResponse = await fetch(`https://ev-rental.onrender.com/api/v2/charger/${charger_id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              "Authorization": `Bearer ${user.token}`,
+            },
+            body: JSON.stringify({ status: 'available' }), // Update charger status
+          });
+  
+          if (chargerResponse.ok) {
+            console.log('Charger status updated to "available"');
+          } else {
+            console.error('Error updating charger status:', chargerResponse.statusText);
+          }
+        }
+      } else {
+        console.error('Error updating reservation status:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error during reservation status update:', error);
+    }
+  };
+  
+
+  const handleAcceptClick = () => {
+    updateReservationStatus('in-progress');
+  };
+
+  const handleFinishClick = () => {
+    updateReservationStatus('finished');
+  };
 
   const handleDeleteClick = async () => {
     try {
@@ -45,6 +117,7 @@ function RequestCard({ charger_id, renter_id, owner_id, start_time, end_time, to
       });
 
       if (response.ok) {
+        window.location.reload();
         console.log('Reservation deleted successfully');
       } else {
         console.error('Error deleting reservation:', response.statusText);
@@ -54,25 +127,10 @@ function RequestCard({ charger_id, renter_id, owner_id, start_time, end_time, to
     }
   };
 
-
-  const updateCharger = async () => {
-    try {
-      const response = await fetch(`https://ev-rental.onrender.com/api/v2/reservation/${reservationId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${user.token}`,
-        },
-      });
-
-      if (response.ok) {
-        console.log('Reservation deleted successfully');
-      } else {
-        console.error('Error deleting reservation:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error during reservation deletion:', error);
-    }
+  const deleteCard = () => {
+    handleDeleteClick();
+    // Implement the logic to remove the card from the page
+    // e.g., you can use state management to remove it from the component's parent
   };
 
   return (
@@ -89,12 +147,9 @@ function RequestCard({ charger_id, renter_id, owner_id, start_time, end_time, to
         mb={1}
         mt={2}
       >
-
-
-
         <SoftBox width="100%">
           <SoftTypography variant="button" fontWeight="medium" textTransform="capitalize" style={{ fontSize: "18px" }}>
-            {charger_id}
+            Charger ID: {charger_id}
           </SoftTypography>
           <SoftBox
             display="flex"
@@ -103,39 +158,75 @@ function RequestCard({ charger_id, renter_id, owner_id, start_time, end_time, to
             mt={1}
           >
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
-              Charger Address:&nbsp;&nbsp;&nbsp;
+              Renter ID:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" textTransform="capitalize" style={{ fontSize: "14px" }}>
                 {renter_id}
               </SoftTypography>
             </SoftTypography>
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
-              Status:&nbsp;&nbsp;&nbsp;
+              Owner ID:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
-                {owner_id}
+                {Provider_id}
               </SoftTypography>
             </SoftTypography>
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
-              Price:&nbsp;&nbsp;&nbsp;
+              Start Time:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
                 {start_time} 
               </SoftTypography>
             </SoftTypography>
+            <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
+              End Time:&nbsp;&nbsp;&nbsp;
+              <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
+                {end_time} 
+              </SoftTypography>
+            </SoftTypography>
+
+            <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
+              Reservation Status:&nbsp;&nbsp;&nbsp;
+              <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
+                {reservationInfo.reservation_status} 
+              </SoftTypography>
+            </SoftTypography>
+
+            <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
+              Total Price:&nbsp;&nbsp;&nbsp;
+              <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
+                {total_price} 
+              </SoftTypography>
+            </SoftTypography>
+
           </SoftBox>
           <SoftBox mt={1} style={{ display: 'flex', justifyContent: 'right' }}>
-            <SoftButton variant="text" color="success" onClick={updateCharger}>
-              <Icon>check_circle</Icon>&nbsp;Accept
-            </SoftButton>
-            <SoftButton variant="text" color="error" onClick={handleDeleteClick}>
-              <Icon>cancel</Icon>&nbsp;Cancel
-            </SoftButton>
+            {reservationInfo.reservation_status === 'finished' ? (
+              <SoftButton
+                variant="contained"
+                color="error"
+                onClick={deleteCard}
+              >
+                Delete
+              </SoftButton>
+            ) : (
+              <>
+                {reservationInfo.reservation_status === 'in-progress' ? (
+                  <SoftButton variant="text" color="info" onClick={handleFinishClick}>
+                    <Icon>done</Icon>&nbsp;Finish
+                  </SoftButton>
+                ) : (
+                  <>
+                    <SoftButton variant="text" color="success" onClick={handleAcceptClick}>
+                      <Icon>check_circle</Icon>&nbsp;Accept
+                    </SoftButton>
+                    <SoftButton variant="text" color="error" onClick={handleDeleteClick}>
+                      <Icon>cancel</Icon>&nbsp;Cancel
+                    </SoftButton>
+                  </>
+                )}
+              </>
+            )}
           </SoftBox>
         </SoftBox>
       </SoftBox>
-      
-        
-        
-      
-     
     </SoftBox>
   );
 }
@@ -143,11 +234,12 @@ function RequestCard({ charger_id, renter_id, owner_id, start_time, end_time, to
 RequestCard.propTypes = {
   charger_id: PropTypes.number.isRequired,
   renter_id: PropTypes.number.isRequired,
-  owner_id: PropTypes.number.isRequired,
+  Provider_id: PropTypes.number.isRequired,
   start_time: PropTypes.string.isRequired,
   end_time: PropTypes.string.isRequired,
-  totalPrice: PropTypes.number.isRequired,
+  total_price: PropTypes.number.isRequired,
+  reservationId: PropTypes.number.isRequired,
+  reservation_status: PropTypes.string.isRequired,
 };
 
 export default RequestCard;
-

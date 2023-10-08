@@ -11,19 +11,13 @@ import cookie from 'react-cookies';
 function RequestPage() {
   const [userRequests, setUserRequests] = useState([]);
   const { user } = useContext(LoginContext); 
-
+  console.log(userRequests);
   useEffect(() => {
   
     if (user && user.token) {
       fetchUserRequests();
     }
   }, [user]); 
-
-  // useEffect(() => {
-  //   fetchUserChargers();
-
-  // }, [userChargers]); // Only fetch chargers when the user object changes
-
 
   const fetchUserRequests = async () => {
       const userId = cookie.load('userId');
@@ -47,6 +41,7 @@ function RequestPage() {
     }
   };
 
+console.log(userRequests);
   return (
     <DashboardLayout>
       <DashboardNavbar />
