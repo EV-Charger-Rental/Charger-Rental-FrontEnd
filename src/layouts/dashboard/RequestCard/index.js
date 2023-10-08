@@ -55,7 +55,7 @@ function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time,
         setReservationInfo(updatedReservationInfo);
         console.log(newStatus);
         
-        if (newStatus === 'in-progress') {
+        if (newStatus === 'In-progress') {
           // Call the API to update charger status to "not available"
           const chargerResponse = await fetch(`https://ev-rental.onrender.com/api/v2/charger/${charger_id}`, {
             method: 'PATCH', // Use PATCH method for partial updates
@@ -72,7 +72,7 @@ function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time,
           } else {
             console.error('Error updating charger status:', chargerResponse.statusText);
           }
-        } else if (newStatus === 'finished') {
+        } else if (newStatus === 'Finished') {
           // Update charger status when the reservation status is "finished"
           // Call the API to update charger status to "available"
           const chargerResponse = await fetch(`https://ev-rental.onrender.com/api/v2/charger/${charger_id}`, {
@@ -86,6 +86,8 @@ function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time,
 
           if (chargerResponse.ok) {
             console.log('Charger status updated to "available"');
+            window.location.reload();
+
           } else {
             console.error('Error updating charger status:', chargerResponse.statusText);
           }
@@ -100,11 +102,12 @@ function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time,
 
 
   const handleAcceptClick = () => {
-    updateReservationStatus('in-progress');
+    updateReservationStatus('In-progress');
   };
 
   const handleFinishClick = () => {
-    updateReservationStatus('finished');
+    updateReservationStatus('Cancelled');
+
   };
 
   const handleDeleteClick = async () => {
@@ -127,6 +130,10 @@ function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time,
       console.error('Error during reservation deletion:', error);
     }
   };
+  const handleCancelledClick=()=>{
+        updateReservationStatus('Cancelled');
+
+  }
 
   const deleteCard = () => {
     handleDeleteClick();

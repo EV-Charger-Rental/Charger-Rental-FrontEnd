@@ -1,14 +1,13 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import PropTypes from "prop-types";
 import { LoginContext } from "../../../context/AuthContext";
-import ReservationCard from "../RequestCard/index";
+import HistoryCard from "../HistoryCard/HistoryCard";
 
-
-function RequestInformation({ userRequests }) {
+function HistoryInfo({ userRequests }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [requestInfo, setRequestInfo] = useState({
     charger_id: "",
@@ -16,11 +15,9 @@ function RequestInformation({ userRequests }) {
     Provider_id: "",
     start_time: "",
     end_time: "",
-    total_price:"",
-    reservation_status:""
+    total_price: "",
+    reservation_status: "",
   });
-
-
 
   const { user } = useContext(LoginContext);
 
@@ -31,14 +28,13 @@ function RequestInformation({ userRequests }) {
           <Typography variant="h6" fontWeight="medium">
             Your Requests
           </Typography>
-
         </div>
         <Grid container spacing={2}>
           {userRequests ? (
             userRequests.map((reservation, index) => (
               <Grid item xs={12} key={index}>
-                <ReservationCard
-                 reservationId={reservation.id}
+                <HistoryCard
+                  reservationId={reservation.id}
                   charger_id={reservation.charger_id}
                   renter_id={reservation.renter_id}
                   Provider_id={reservation.Provider_id}
@@ -46,8 +42,6 @@ function RequestInformation({ userRequests }) {
                   end_time={reservation.end_time}
                   total_price={reservation.total_price}
                   reservation_status={reservation.reservation_status}
-
-                  // updateChargerData={updateChargerData}
                 />
               </Grid>
             ))
@@ -60,17 +54,19 @@ function RequestInformation({ userRequests }) {
   );
 }
 
-RequestInformation.propTypes = {
-  userRequests: PropTypes.arrayOf(PropTypes.shape({
-    charger_id: PropTypes.number.isRequired,
-    renter_id: PropTypes.number.isRequired,
-    Provider_id: PropTypes.number.isRequired,
-    start_time: PropTypes.string.isRequired,
-    end_time: PropTypes.string.isRequired,
-    total_price: PropTypes.number.isRequired,
-    reservationId: PropTypes.number.isRequired,
-    reservation_status:PropTypes.string.isRequired
-  })).isRequired,
+HistoryInfo.propTypes = {
+  userRequests: PropTypes.arrayOf(
+    PropTypes.shape({
+      charger_id: PropTypes.number.isRequired,
+      renter_id: PropTypes.number.isRequired,
+      Provider_id: PropTypes.number.isRequired,
+      start_time: PropTypes.string.isRequired,
+      end_time: PropTypes.string.isRequired,
+      total_price: PropTypes.number.isRequired,
+      reservationId: PropTypes.number.isRequired,
+      reservation_status: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
-export default RequestInformation;
+export default HistoryInfo;

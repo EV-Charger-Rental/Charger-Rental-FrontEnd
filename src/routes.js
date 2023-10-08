@@ -18,15 +18,35 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ChargerPage from './layouts/chargerPage/chargerPage';
 import ChatPage from './layouts/chatPage/chatPage';
 import Logout from './layouts/authentication/logout/logout';
+import InProgressGet from "layouts/inProgress/InProgressGet";
+import Historyget from "layouts/History/Historyget";
 
 const routes = [
   {
     type: "collapse",
-    name: "Dashboard",
+    name: "Requests",
     key: "dashboard",
     route: "/dashboard",
     icon: <Shop size="12px" />,
     component: <Dashboard />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "In Progress",
+    key: "inprogress",
+    route: "/inprogress",
+    icon: <Shop size="12px" />,
+    component: <InProgressGet />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "History Reservations",
+    key: "history",
+    route: "/history",
+    icon: <Shop size="12px" />,
+    component: <Historyget />,
     noCollapse: true,
   },
   {
@@ -76,16 +96,7 @@ const routes = [
     component: <SignIn />,
     noCollapse: true,
   },
-  {
-    type: "collapse",
-    name: "Chat",
-    key: "chat",
-    route: "/chat",
-    icon: <SpaceShip size="12px" />,
-    // component: <ChatView />,
-    component: <App />,
-    noCollapse: true,
-  },
+ 
   {
     type: "collapse",
     name: "Sign Up",
