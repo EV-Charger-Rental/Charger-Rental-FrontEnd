@@ -14,10 +14,11 @@ function RequestInformation({ userRequests }) {
   const [requestInfo, setRequestInfo] = useState({
     charger_id: "",
     renter_id: "",
-    owner_id: "",
+    Provider_id: "",
     start_time: "",
     end_time: "",
-    totalPrice:""
+    total_price:"",
+    reservation_status:""
   });
 
 
@@ -38,12 +39,17 @@ function RequestInformation({ userRequests }) {
             userRequests.map((reservation, index) => (
               <Grid item xs={12} key={index}>
                 <ReservationCard
+                 reservationId={reservation.id}
                   charger_id={reservation. charger_id}
                   renter_id={reservation.renter_id}
-                  owner_id={reservation.owner_id}
+                  Provider_id={reservation.Provider_id}
                   start_time={reservation.start_time}
                   end_time={reservation.end_time}
-                  totalPrice={reservation. totalPrice}
+                  total_price={reservation. total_price
+                  }
+                  reservation_status={reservation. reservation_status
+                  }
+
                   // updateChargerData={updateChargerData}
                 />
               </Grid>
@@ -61,10 +67,12 @@ RequestInformation.propTypes = {
   userRequests: PropTypes.arrayOf(PropTypes.shape({
     charger_id: PropTypes.number.isRequired,
     renter_id: PropTypes.number.isRequired,
-    owner_id: PropTypes.number.isRequired,
+    Provider_id: PropTypes.number.isRequired,
     start_time: PropTypes.string.isRequired,
     end_time: PropTypes.string.isRequired,
-    totalPrice: PropTypes.number.isRequired,
+    total_price: PropTypes.number.isRequired,
+    reservationId: PropTypes.number.isRequired,
+    reservation_status:PropTypes.string.isRequired
   })).isRequired,
 };
 
