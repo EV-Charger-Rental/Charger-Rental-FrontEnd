@@ -32,13 +32,15 @@ function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time,
   });
   const { user } = useContext(LoginContext);
 
-  const updateReservationStatus = async (newStatus, charger_id) => {
+  const updateReservationStatus = async (newStatus) => {
     try {
+      console.log("cccccccccccccccccccccccc",charger_id)
       const updatedReservationInfo = {
         ...reservationInfo,
         reservation_status: newStatus,
+        
       };
-  
+
       const response = await fetch(`https://ev-rental.onrender.com/api/v2/reservation/${reservationId}`, {
         method: 'PUT',
         headers: {
@@ -47,24 +49,23 @@ function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time,
         },
         body: JSON.stringify(updatedReservationInfo),
       });
-  
+
       if (response.ok) {
         console.log(`Reservation status updated to ${newStatus}`);
         setReservationInfo(updatedReservationInfo);
-  console.log(newStatus);
-        // Update charger status when the reservation status is "in-progress"
+        console.log(newStatus);
+        
         if (newStatus === 'in-progress') {
-   console.log("trueee")
           // Call the API to update charger status to "not available"
           const chargerResponse = await fetch(`https://ev-rental.onrender.com/api/v2/charger/${charger_id}`, {
-            method: 'PUT',
+            method: 'PATCH', // Use PATCH method for partial updates
             headers: {
               'Content-Type': 'application/json',
               "Authorization": `Bearer ${user.token}`,
             },
             body: JSON.stringify({ status: 'not available' }), // Update charger status
           });
-          console.log("nnnnnnnn",chargerResponse);
+          console.log("nnnnnnnn", chargerResponse);
 
           if (chargerResponse.ok) {
             console.log('Charger status updated to "not available"');
@@ -75,14 +76,14 @@ function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time,
           // Update charger status when the reservation status is "finished"
           // Call the API to update charger status to "available"
           const chargerResponse = await fetch(`https://ev-rental.onrender.com/api/v2/charger/${charger_id}`, {
-            method: 'PUT',
+            method: 'PATCH', // Use PATCH method for partial updates
             headers: {
               'Content-Type': 'application/json',
               "Authorization": `Bearer ${user.token}`,
             },
             body: JSON.stringify({ status: 'available' }), // Update charger status
           });
-  
+
           if (chargerResponse.ok) {
             console.log('Charger status updated to "available"');
           } else {
@@ -96,7 +97,7 @@ function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time,
       console.error('Error during reservation status update:', error);
     }
   };
-  
+
 
   const handleAcceptClick = () => {
     updateReservationStatus('in-progress');
@@ -172,27 +173,27 @@ function RequestCard({ charger_id, renter_id, Provider_id, start_time, end_time,
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
               Start Time:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
-                {start_time} 
+                {start_time}
               </SoftTypography>
             </SoftTypography>
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
               End Time:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
-                {end_time} 
+                {end_time}
               </SoftTypography>
             </SoftTypography>
 
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
               Reservation Status:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
-                {reservationInfo.reservation_status} 
+                {reservationInfo.reservation_status}
               </SoftTypography>
             </SoftTypography>
 
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
               Total Price:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
-                {total_price} 
+                {total_price}
               </SoftTypography>
             </SoftTypography>
 
