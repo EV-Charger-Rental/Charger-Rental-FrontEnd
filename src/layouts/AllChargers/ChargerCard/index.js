@@ -49,12 +49,7 @@ function ChargerCard({
   };
 
   const closeReservationDialog = () => {
-    // setReservationInfo({
-    //   chargerId: chargerId,
-    //   startTime: selectedStartTime,
-    //   endTime: selectedEndTime,
-    
-    // });
+   
     setIsReservationDialogOpen(false);
   };
 
@@ -135,22 +130,6 @@ console.log(renter_id);
     });
   };
   
-  // const handleStartTimeSelect = (selectedTime) => {
-  //   setSelectedStartTime(selectedTime);
-  //   // Update reservationInfo when selecting a start time
-    // setReservationInfo({
-    //   ...reservationInfo,
-    //   startClok: selectedTime,
-  //   });
-  // };
-  // const handleEndTimeSelect = (selectedTime) => {
-  //   setSelectedEndTime(selectedTime);
-  //   // Update reservationInfo when selecting an end time
-  //   setReservationInfo({
-  //     ...reservationInfo,
-  //     endClok: selectedTime,
-  //   });
-  // };
   return (
     <SoftBox>
       <SoftBox
