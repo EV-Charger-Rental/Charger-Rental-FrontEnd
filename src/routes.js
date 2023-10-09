@@ -20,15 +20,35 @@ import ChatPage from './layouts/chatPage/chatPage';
 import Logout from './layouts/authentication/logout/logout';
 import InProgressGet from "layouts/inProgress/InProgressGet";
 import Historyget from "layouts/History/Historyget";
+import RequestReservation from './layouts/RequestReservations/ReservationPage';
+import AllChargers from './layouts/AllChargers/chargerPage';
 
 const routes = [
   {
     type: "collapse",
-    name: "Requests",
+    name: "Provider Requests",
     key: "dashboard",
     route: "/dashboard",
     icon: <Shop size="12px" />,
     component: <Dashboard />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Renter Requests",
+    key: "RenterReservation",
+    route: "/RenterReservation",
+    icon: <Shop size="12px" />,
+    component: <RequestReservation />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "All Chargers",
+    key: "AllChargers",
+    route: "/AllChargers",
+    icon: <Shop size="12px" />,
+    component: <AllChargers />,
     noCollapse: true,
   },
   {
