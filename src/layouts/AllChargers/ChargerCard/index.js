@@ -140,7 +140,7 @@ console.log(renter_id);
   //   // Update reservationInfo when selecting a start time
     // setReservationInfo({
     //   ...reservationInfo,
-    //   start_time: selectedTime,
+    //   startClok: selectedTime,
   //   });
   // };
   // const handleEndTimeSelect = (selectedTime) => {
@@ -148,7 +148,7 @@ console.log(renter_id);
   //   // Update reservationInfo when selecting an end time
   //   setReservationInfo({
   //     ...reservationInfo,
-  //     end_time: selectedTime,
+  //     endClok: selectedTime,
   //   });
   // };
   return (

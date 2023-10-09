@@ -34,6 +34,7 @@ function RequestPage() {
         // Filter the requests to keep only those with the status "open"
         const openRequests = requestData.filter(request => request.reservation_status === 'open');
         setUserRequests(openRequests);
+        console.log(openRequests);
       } else {
         console.error("Error fetching user's request data:", response.statusText);
       }

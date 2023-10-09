@@ -28,8 +28,8 @@ function ReservationInformation({ userReservations }) {
     charger_id: "",
     renter_id: "",
     Provider_id: 1,
-    start_time: "",
-    end_time: "",
+    startClok: "",
+    endClok: "",
     total_price: ""
   });
   
@@ -142,9 +142,9 @@ function ReservationInformation({ userReservations }) {
             <Grid item xs={12} key={reservation.id}>
               <ReservationCard
                
-               start_time={reservation.start_time}
-               end_time={reservation.end_time}
-               ChargerType={reservation.end_time}
+               startClok={reservation.startClok}
+               endClok={reservation.endClok}
+               ChargerType={reservation.endClok}
                location={reservation.location}
 
 
@@ -235,8 +235,8 @@ ReservationInformation.propTypes = {
     charger_id: PropTypes.number.isRequired,
     renter_id: PropTypes.number.isRequired,
     Provider_id: PropTypes.number.isRequired,
-    start_time: PropTypes.string.isRequired,
-    end_time: PropTypes.string.isRequired,
+    startClok: PropTypes.string.isRequired,
+    endClok: PropTypes.string.isRequired,
     total_price: PropTypes.number.isRequired,
   })).isRequired,
 };
