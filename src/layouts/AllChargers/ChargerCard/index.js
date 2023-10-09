@@ -22,6 +22,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ClockSelector from "../ClockSelector/ClockSelector"
 
 function ChargerCard({
+  chargerId,
   ChargerType,
   status,
   price,
@@ -34,7 +35,7 @@ function ChargerCard({
   const userId = cookie.load("userId");
   const [isReservationDialogOpen, setIsReservationDialogOpen] = useState(false);
   const [reservationInfo, setReservationInfo] = useState({
-    chargerId: 1, // Replace with the appropriate charger ID
+    chargerId: chargerId, // Replace with the appropriate charger ID
     startTime: "", // Initialize start time
     endTime: "", // Initialize end time
   });
@@ -48,24 +49,25 @@ function ChargerCard({
   };
 
   const closeReservationDialog = () => {
+    // setReservationInfo({
+    //   chargerId: chargerId,
+    //   startTime: selectedStartTime,
+    //   endTime: selectedEndTime,
+    
+    // });
     setIsReservationDialogOpen(false);
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setReservationInfo({ ...reservationInfo, [name]: value });
-  };
+  console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ",selectedStartTime);
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",selectedEndTime);
+  
 
   const addReservation = async () => {
     const renter_id = parseInt(userId, 10);
 
 console.log(renter_id);
-    setReservationInfo({
-      ...reservationInfo,
-      startTime: selectedStartTime,
-      endTime: selectedEndTime,
     
-    });
+  
 
     console.log (reservationInfo);
     const response = await fetch("https://ev-rental.onrender.com/api/v2/reservation", {
@@ -78,16 +80,17 @@ console.log(renter_id);
         charger_id: reservationInfo.chargerId,
         renter_id: renter_id,
         Provider_id: Provider_id,
-        start_time: reservationInfo.startTime,
-        end_time: reservationInfo.endTime,
+        startClok: reservationInfo.startTime,
+        endClok: reservationInfo.endTime,
       }),
     });
     console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", JSON.stringify({
       charger_id: reservationInfo.chargerId,
       renter_id: renter_id,
       Provider_id: Provider_id,
-      start_time: reservationInfo.startTime,
-      end_time: reservationInfo.endTime,
+      startClok: reservationInfo.startTime,
+      endClok: reservationInfo.endTime,
+
     }));
     if (response.ok) {
       console.log("Reservation added successfully");
@@ -117,13 +120,37 @@ console.log(renter_id);
   };
   const handleStartTimeSelect = (selectedTime) => {
     setSelectedStartTime(selectedTime);
+    setReservationInfo({
+      ...reservationInfo,
+      startTime: selectedTime,
+    });
   };
   
   // Define a callback function to handle selected end time
   const handleEndTimeSelect = (selectedTime) => {
     setSelectedEndTime(selectedTime);
+    setReservationInfo({
+      ...reservationInfo,
+      endTime: selectedTime,
+    });
   };
   
+  // const handleStartTimeSelect = (selectedTime) => {
+  //   setSelectedStartTime(selectedTime);
+  //   // Update reservationInfo when selecting a start time
+    // setReservationInfo({
+    //   ...reservationInfo,
+    //   start_time: selectedTime,
+  //   });
+  // };
+  // const handleEndTimeSelect = (selectedTime) => {
+  //   setSelectedEndTime(selectedTime);
+  //   // Update reservationInfo when selecting an end time
+  //   setReservationInfo({
+  //     ...reservationInfo,
+  //     end_time: selectedTime,
+  //   });
+  // };
   return (
     <SoftBox>
       <SoftBox
@@ -214,11 +241,11 @@ console.log(renter_id);
             <div style={{ margin: '16px' }}>
               <Typography variant="body1">Start Time:</Typography>
             </div>
-            <ClockSelector style={{ margin: '16px' }} selectedTime={selectedStartTime} selectedTimeFromClok ={setSelectedStartTime} />
+            <ClockSelector style={{ margin: '16px' }} selectedTime={selectedStartTime} selectedTimeFromClok ={handleStartTimeSelect} />
             <div style={{ margin: '16px' }}>
               <Typography variant="body1">End Time:</Typography>
             </div>
-            <ClockSelector style={{ margin: '16px' }} selectedTime={selectedEndTime} selectedTimeFromClok={setSelectedEndTime} />
+            <ClockSelector style={{ margin: '16px' }} selectedTime={selectedEndTime} selectedTimeFromClok={handleEndTimeSelect} />
           </div>
         </DialogContent>
 
@@ -233,6 +260,7 @@ console.log(renter_id);
 }
 
 ChargerCard.propTypes = {
+  chargerId: PropTypes.number.isRequired,
   ChargerType: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
