@@ -3,13 +3,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+// import ChargerCard from "../RequestCard/index";
 import PropTypes from "prop-types";
 import { LoginContext } from "../../../context/AuthContext";
-import ReservationCard from "../RequestCard/index";
+import InProgressCard from "../inProgressCard/InProgressCard";
 
 
-function RequestInformation({ userRequests }) {
-  const [openDialog, setOpenDialog] = useState(false);
+function InProgressinfo({ userRequests }) {
   const [requestInfo, setRequestInfo] = useState({
     charger_id: "",
     renter_id: "",
@@ -37,7 +37,7 @@ function RequestInformation({ userRequests }) {
           {userRequests ? (
             userRequests.map((reservation, index) => (
               <Grid item xs={12} key={index}>
-                <ReservationCard
+                <InProgressCard
                  reservationId={reservation.id}
                   charger_id={reservation.charger_id}
                   renter_id={reservation.renter_id}
@@ -60,7 +60,7 @@ function RequestInformation({ userRequests }) {
   );
 }
 
-RequestInformation.propTypes = {
+InProgressinfo.propTypes = {
   userRequests: PropTypes.arrayOf(PropTypes.shape({
     charger_id: PropTypes.number.isRequired,
     renter_id: PropTypes.number.isRequired,
@@ -73,4 +73,4 @@ RequestInformation.propTypes = {
   })).isRequired,
 };
 
-export default RequestInformation;
+export default InProgressinfo;
