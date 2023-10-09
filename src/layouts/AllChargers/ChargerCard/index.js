@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Icon from "@mui/material/Icon";
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
-import SoftButton from "components/SoftButton";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -17,125 +16,114 @@ import { LoginContext } from "../../../context/AuthContext";
 import cookie from "react-cookies";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import ReservationForm from "./"; // Import your ReservationForm here
+import { Grid, IconButton } from '@mui/material';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import ClockSelector from "../ClockSelector/ClockSelector"
 
 function ChargerCard({
   ChargerType,
   status,
   price,
-  chargerId,
-  chargerAddress, // Add chargerAddress as a prop
-  latitude, // Add latitude as a prop
-  longitude, // Add longitude as a prop
+  chargerAddress,
+  latitude,
+  longitude,
+  Provider_id,
+
 }) {
   const userId = cookie.load("userId");
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [chargerInfo, setChargerInfo] = useState({
-    ChargerType,
-    status,
-    price,
-    owner_id: userId,
-    latitude, // Initialize latitude from prop
-    longitude, // Initialize longitude from prop
-    chargerAddress, // Initialize chargerAddress from prop
+  const [isReservationDialogOpen, setIsReservationDialogOpen] = useState(false);
+  const [reservationInfo, setReservationInfo] = useState({
+    chargerId: 1, // Replace with the appropriate charger ID
+    startTime: "", // Initialize start time
+    endTime: "", // Initialize end time
   });
+  const [selectedStartTime, setSelectedStartTime] = useState('');
+  const [selectedEndTime, setSelectedEndTime] = useState('');
+
   const { user } = useContext(LoginContext);
 
-  const openEditDialog = () => {
-    setIsEditDialogOpen(true);
+  const openReservationDialog = () => {
+    setIsReservationDialogOpen(true);
   };
 
-  const closeEditDialog = () => {
-    setIsEditDialogOpen(false);
-  };
-
-  const handleStatusChange = (event) => {
-    setChargerInfo({ ...chargerInfo, status: event.target.value });
-  };
-
-  const handleMapLocationSelect = (e) => {
-    if (e && e.latlng) {
-      const { lat, lng } = e.latlng;
-      const updatedChargerInfo = { ...chargerInfo };
-      updatedChargerInfo.latitude = lat;
-      updatedChargerInfo.longitude = lng;
-      setChargerInfo(updatedChargerInfo);
-      // Save the latitude and longitude to cookies when opening the map
-      cookie.get("selectedLatitude", lat); // New cookie for edited latitude
-      cookie.get("selectedLongitude", lng); // New cookie for edited longitude
-    }
-  };
-
-  const updateCharger = async () => {
-    const userId = cookie.load("userId");
-    const chargerLat = cookie.load("selectedLatitude");
-    const chargerLong = cookie.load("selectedLongitude"); 
-    if (!userId) {
-      console.error("User ID not available");
-      return;
-    }
-
-    chargerInfo.price = parseFloat(chargerInfo.price);
-    chargerInfo.latitude = parseFloat(chargerLat);
-    chargerInfo.longitude = parseFloat(chargerLong);
-
-    if (!chargerInfo.ChargerType) {
-      console.error("Charger Type is required");
-      return;
-    }
-    try {
-      const response = await fetch(
-        `https://ev-rental.onrender.com/api/v2/charger/${chargerId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          body: JSON.stringify(chargerInfo),
-        }
-      );
-
-      if (response.ok) {
-        console.log("Charger updated successfully");
-        closeEditDialog();
-        window.location.reload();
-      } else {
-        console.error("Error updating charger:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error during charger update:", error);
-    }
+  const closeReservationDialog = () => {
+    setIsReservationDialogOpen(false);
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setChargerInfo({ ...chargerInfo, [name]: value });
+    setReservationInfo({ ...reservationInfo, [name]: value });
   };
 
-  const handleDeleteClick = async () => {
-    try {
-      const response = await fetch(
-        `https://ev-rental.onrender.com/api/v2/charger/${chargerId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+  const addReservation = async () => {
+    const renter_id = parseInt(userId, 10);
 
-      if (response.ok) {
-        console.log("Charger deleted successfully");
-        window.location.reload();
-      } else {
-        console.error("Error deleting charger:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error during charger deletion:", error);
+console.log(renter_id);
+    setReservationInfo({
+      ...reservationInfo,
+      startTime: selectedStartTime,
+      endTime: selectedEndTime,
+    
+    });
+
+    console.log (reservationInfo);
+    const response = await fetch("https://ev-rental.onrender.com/api/v2/reservation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify({
+        charger_id: reservationInfo.chargerId,
+        renter_id: renter_id,
+        Provider_id: Provider_id,
+        start_time: reservationInfo.startTime,
+        end_time: reservationInfo.endTime,
+      }),
+    });
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", JSON.stringify({
+      charger_id: reservationInfo.chargerId,
+      renter_id: renter_id,
+      Provider_id: Provider_id,
+      start_time: reservationInfo.startTime,
+      end_time: reservationInfo.endTime,
+    }));
+    if (response.ok) {
+      console.log("Reservation added successfully");
+      closeReservationDialog();
+      
+
+    } else {
+      console.error("Error adding reservation:", response.statusText);
     }
   };
 
+
+
+
+
+  const [open, setOpen] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(null);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleTimeSelect = (hour, minute) => {
+    setSelectedTime(`${hour}:${minute}`);
+    handleClose();
+  };
+  const handleStartTimeSelect = (selectedTime) => {
+    setSelectedStartTime(selectedTime);
+  };
+  
+  // Define a callback function to handle selected end time
+  const handleEndTimeSelect = (selectedTime) => {
+    setSelectedEndTime(selectedTime);
+  };
+  
   return (
     <SoftBox>
       <SoftBox
@@ -208,139 +196,36 @@ function ChargerCard({
             mt={1}
             style={{ display: "flex", justifyContent: "right" }}
           >
-            <SoftButton variant="text" color="dark" onClick={openEditDialog}>
-              <Icon>edit</Icon>&nbsp;edit
-            </SoftButton>
-            <SoftButton
-              variant="text"
-              color="error"
-              onClick={handleDeleteClick}
-            >
-              <Icon>delete</Icon>&nbsp;delete
-            </SoftButton>
+            <Button variant="text" color="dark" onClick={openReservationDialog}>
+              Add Reservation
+            </Button>
           </SoftBox>
         </SoftBox>
       </SoftBox>
       <Dialog
-        open={isEditDialogOpen}
-        onClose={closeEditDialog}
+        open={isReservationDialogOpen}
+        onClose={closeReservationDialog}
         maxWidth="md"
         fullWidth={true}
       >
-        <DialogTitle>Edit Charger</DialogTitle>
+        <DialogTitle>Add Reservation</DialogTitle>
         <DialogContent>
-          {/* Charger Type */}
-          <MenuItem>
-            <Select
-              name="ChargerType"
-              label="Charger Type"
-              variant="outlined"
-              fullWidth
-              value={chargerInfo.ChargerType}
-              onChange={handleInputChange}
-              displayEmpty
-              inputProps={{ "aria-label": "ChargerType" }}
-              sx={{ marginTop: 2 }}
-            >
-              <MenuItem value="type1">Type 1</MenuItem>
-              <MenuItem value="type2">Type 2</MenuItem>
-              <MenuItem value="type3">Type 3</MenuItem>
-            </Select>
-          </MenuItem>
-
-          {/* Status */}
-          <MenuItem>
-            <Select
-              name="status"
-              label="Status"
-              variant="outlined"
-              fullWidth
-              value={chargerInfo.status}
-              onChange={handleStatusChange}
-            >
-              <MenuItem value="available">Available</MenuItem>
-              <MenuItem value="not available">Not Available</MenuItem>
-            </Select>
-          </MenuItem>
-
-          {/* Price */}
-          <MenuItem>
-            <div style={{ display: "flex", alignItems: "baseline" }}>
-              <InputLabel
-                htmlFor="price"
-                sx={{
-                  paddingRight: "16px",
-                  minWidth: "80px",
-                  fontSize: "14px",
-                }}
-              >
-                Price
-              </InputLabel>
-              <TextField
-                name="price"
-                id="price"
-                variant="outlined"
-                fullWidth
-                type="number"
-                inputProps={{
-                  min: 0.5,
-                  max: 4,
-                  step: 0.5,
-                }}
-                value={chargerInfo.price}
-                onChange={handleInputChange}
-                sx={{
-                  paddingRight: "20px",
-                }}
-              />
-              <span style={{ fontSize: "14px", color: "#666", marginLeft: "0px" }}>
-                JD
-              </span>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ margin: '16px' }}>
+              <Typography variant="body1">Start Time:</Typography>
             </div>
-            {chargerInfo.price > 4 && (
-              <div style={{ display: "flex", alignItems: "baseline", marginLeft: "5px" }}>
-                <Typography variant="caption" color="error" sx={{ fontSize: "12px" }}>
-                  Price exceeds the maximum limit (4 JD).
-                </Typography>
-              </div>
-            )}
-          </MenuItem>
-
-          {/* Charger Address */}
-          <MenuItem>
-            <div style={{ display: "flex", alignItems: "baseline" }}>
-              <InputLabel
-                htmlFor="chargerAddress"
-                sx={{
-                  paddingRight: "16px",
-                  minWidth: "150px",
-                  fontSize: "14px",
-                }}
-              >
-                Charger Address
-              </InputLabel>
-              <TextField
-                name="chargerAddress"
-                id="chargerAddress"
-                variant="outlined"
-                fullWidth
-                value={chargerInfo.chargerAddress}
-                onChange={handleInputChange}
-              />
+            <ClockSelector style={{ margin: '16px' }} selectedTime={selectedStartTime} selectedTimeFromClok ={setSelectedStartTime} />
+            <div style={{ margin: '16px' }}>
+              <Typography variant="body1">End Time:</Typography>
             </div>
-          </MenuItem>
-
-          {/* Relocate Charger */}
-          <MenuItem>
-            <Button onClick={handleMapLocationSelect} color="text">
-              Relocate Charger
-            </Button>
-          </MenuItem>
-          <MapComponent onLocationSelect={handleMapLocationSelect} />
+            <ClockSelector style={{ margin: '16px' }} selectedTime={selectedEndTime} selectedTimeFromClok={setSelectedEndTime} />
+          </div>
         </DialogContent>
+
+
         <DialogActions>
-          <Button onClick={closeEditDialog}>Cancel</Button>
-          <Button onClick={updateCharger}>Update Charger</Button>
+          <Button onClick={closeReservationDialog}>Cancel</Button>
+          <Button onClick={addReservation}>Add Reservation</Button>
         </DialogActions>
       </Dialog>
     </SoftBox>
@@ -351,10 +236,10 @@ ChargerCard.propTypes = {
   ChargerType: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-  chargerId: PropTypes.number.isRequired,
-  chargerAddress: PropTypes.string.isRequired, // Add chargerAddress as a prop
-  latitude: PropTypes.number.isRequired, // Add latitude as a prop
-  longitude: PropTypes.number.isRequired, // Add longitude as a prop
+  chargerAddress: PropTypes.string.isRequired,
+  latitude: PropTypes.number.isRequired,
+  longitude: PropTypes.number.isRequired,
+  Provider_id: PropTypes.number.isRequired,
 };
 
 export default ChargerCard;

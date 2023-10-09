@@ -33,6 +33,7 @@ function ChargerInformation({ userChargers }) {
     chargerAddress: "", // Add chargerAddress to the state
     latitude: 0,
     longitude: 0,
+
   });
 
   const [chargers, setChargers] = useState([]);
@@ -111,6 +112,7 @@ function ChargerInformation({ userChargers }) {
                 status={charger.status}
                 price={charger.price}
                 chargerAddress={charger.chargerAddress} // Pass chargerAddress as a prop
+                Provider_id = {charger.owner_id}
               />
             </Grid>
           ))}
@@ -127,6 +129,7 @@ ChargerInformation.propTypes = {
     status: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
     chargerAddress: PropTypes.string.isRequired,
+    Provider_id:PropTypes.number.isRequired,
   })).isRequired,
 };
 
