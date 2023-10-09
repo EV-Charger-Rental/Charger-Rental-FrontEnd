@@ -7,7 +7,7 @@ import SoftButton from "components/SoftButton";
 import { LoginContext } from '../../../context/AuthContext';
 import cookie from 'react-cookies';
 
-function InProgressCard({ charger_id, renter_id, Provider_id, start_time, end_time, total_price, reservation_status, reservationId }) {
+function InProgressCard({ charger_id, renter_id, Provider_id, startClok, endClok, total_price, reservation_status, reservationId }) {
   const userId = cookie.load("userId");
 
   const { user } = useContext(LoginContext);
@@ -90,13 +90,13 @@ function InProgressCard({ charger_id, renter_id, Provider_id, start_time, end_ti
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
               Start Time:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
-                {start_time}
+                {startClok}
               </SoftTypography>
             </SoftTypography>
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
               End Time:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
-                {end_time}
+                {endClok}
               </SoftTypography>
             </SoftTypography>
 
@@ -132,8 +132,8 @@ InProgressCard.propTypes = {
   charger_id: PropTypes.number.isRequired,
   renter_id: PropTypes.number.isRequired,
   Provider_id: PropTypes.number.isRequired,
-  start_time: PropTypes.string.isRequired,
-  end_time: PropTypes.string.isRequired,
+  startClok: PropTypes.string.isRequired,
+  endClok: PropTypes.string.isRequired,
   total_price: PropTypes.number.isRequired,
   reservation_status: PropTypes.string.isRequired,
   reservationId: PropTypes.number.isRequired,

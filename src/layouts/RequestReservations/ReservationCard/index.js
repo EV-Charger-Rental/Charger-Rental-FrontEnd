@@ -24,8 +24,8 @@ function ReservationCard({
   charger_id,
   renter_id,
   Provider_id,
-  start_time,
-  end_time,
+  startClok,
+  endClok,
   total_price
 
 }) {
@@ -35,8 +35,8 @@ function ReservationCard({
     charger_id,
     renter_id,
     Provider_id,
-    start_time,
-    end_time,
+    startClok,
+    endClok,
     total_price // Initialize chargerAddress from prop
   });
   const { user } = useContext(LoginContext);
@@ -327,8 +327,8 @@ ReservationCard.propTypes = {
   charger_id: PropTypes.number.isRequired,
   renter_id: PropTypes.number.isRequired,
   Provider_id: PropTypes.number.isRequired,
-  start_time: PropTypes.string.isRequired,
-  end_time: PropTypes.string.isRequired,
+  startClok: PropTypes.string.isRequired,
+  endClok: PropTypes.string.isRequired,
   total_price: PropTypes.number.isRequired, // Add longitude as a prop
 };
 

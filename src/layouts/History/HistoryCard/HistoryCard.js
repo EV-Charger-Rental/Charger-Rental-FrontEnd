@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 
-function HistoryCard({ charger_id, renter_id, Provider_id, start_time, end_time, total_price, reservation_status }) {
+function HistoryCard({ charger_id, renter_id, Provider_id, startClok, endClok, total_price, reservation_status }) {
   return (
     <SoftBox>
       <SoftBox
@@ -43,13 +43,13 @@ function HistoryCard({ charger_id, renter_id, Provider_id, start_time, end_time,
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
               Start Time:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
-                {start_time}
+                {startClok}
               </SoftTypography>
             </SoftTypography>
             <SoftTypography variant="caption" color="text" fontWeight="bold" style={{ fontSize: "14px" }}>
               End Time:&nbsp;&nbsp;&nbsp;
               <SoftTypography variant="caption" fontWeight="medium" style={{ fontSize: "14px" }}>
-                {end_time}
+                {endClok}
               </SoftTypography>
             </SoftTypography>
 
@@ -78,8 +78,8 @@ HistoryCard.propTypes = {
   charger_id: PropTypes.number.isRequired,
   renter_id: PropTypes.number.isRequired,
   Provider_id: PropTypes.number.isRequired,
-  start_time: PropTypes.string.isRequired,
-  end_time: PropTypes.string.isRequired,
+  startClok: PropTypes.string.isRequired,
+  endClok: PropTypes.string.isRequired,
   total_price: PropTypes.number.isRequired,
   reservation_status: PropTypes.string.isRequired,
 };
