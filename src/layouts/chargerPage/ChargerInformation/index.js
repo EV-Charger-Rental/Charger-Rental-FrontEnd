@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState, useContext, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -252,24 +253,39 @@ function ChargerInformation({ userChargers }) {
             <div style={{ display: 'flex', alignItems: 'baseline' }}>
               <InputLabel htmlFor="chargerAddress" sx={{ paddingRight: '16px', minWidth: '150px', fontSize: '14px' }}>
                 Charger Address
-
               </InputLabel>
-              <TextField
+              <Select
                 name="chargerAddress"
                 id="chargerAddress"
                 variant="outlined"
                 fullWidth
                 value={chargerInfo.chargerAddress}
                 onChange={handleInputChange}
-              />
+              >
+                <MenuItem value="">
+                <em>Select a city</em>
+                </MenuItem>
+                <MenuItem value="Amman">Amman</MenuItem>
+                <MenuItem value="Irbid">Irbid</MenuItem>
+                <MenuItem value="Zarqa">Zarqa</MenuItem>
+                <MenuItem value="Aqaba">Aqaba</MenuItem>
+                <MenuItem value="Mafraq">Mafraq</MenuItem>
+                <MenuItem value="Madaba">Madaba</MenuItem>
+                <MenuItem value="Karak">Karak</MenuItem>
+                <MenuItem value="Tafilah">Tafilah</MenuItem>
+                <MenuItem value="Balqa">Balqa</MenuItem>
+                <MenuItem value="Ma'an">Ma'an</MenuItem>
+                <MenuItem value="Jerash">Jerash</MenuItem>
+                <MenuItem value="Ajloun">Ajloun</MenuItem>
+              </Select>
             </div>
             <MenuItem style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Button onClick={openMap} color="text">
                 Add Location
               </Button>
             </MenuItem>
-
           </MenuItem>
+
 
           {/* <MenuItem>
             <Button onClick={openMap} color="text">
