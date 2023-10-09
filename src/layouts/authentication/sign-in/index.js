@@ -29,7 +29,9 @@ function SignIn() {
       if (response.body.token) {
         console.log('here is signin response.body.token',response.body.token)
         dispatch(setUser(username));
-        navigate('/dashboard');
+        navigate('/Requests');
+        window.location.reload();
+
       } else {
         console.error('Login failed:', response.body.message);
       }

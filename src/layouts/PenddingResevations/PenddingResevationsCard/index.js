@@ -17,7 +17,7 @@ import cookie from 'react-cookies';
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-function RequestCard({ charger_id, renter_id, Provider_id, startClok, endClok, total_price, reservation_status, reservationId }) {
+function PenddingResevationsCard({ charger_id, renter_id, Provider_id, startClok, endClok, total_price, reservation_status, reservationId }) {
   const userId = cookie.load("userId");
 
   const [reservationInfo, setReservationInfo] = useState({
@@ -210,41 +210,14 @@ function RequestCard({ charger_id, renter_id, Provider_id, startClok, endClok, t
             </SoftTypography>
 
           </SoftBox>
-          <SoftBox mt={1} style={{ display: 'flex', justifyContent: 'right' }}>
-            {reservationInfo.reservation_status === 'finished' ? (
-              <SoftButton
-                variant="contained"
-                color="error"
-                onClick={deleteCard}
-              >
-                Delete
-              </SoftButton>
-            ) : (
-              <>
-                {reservationInfo.reservation_status === 'In-progress' ? (
-                  <SoftButton variant="text" color="info" onClick={handleFinishClick}>
-                    <Icon>done</Icon>&nbsp;Finish
-                  </SoftButton>
-                ) : (
-                  <>
-                    <SoftButton variant="text" color="success" onClick={handleAcceptClick}>
-                      <Icon>check_circle</Icon>&nbsp;Accept
-                    </SoftButton>
-                    <SoftButton variant="text" color="error" onClick={handleCancelledClick}>
-                      <Icon>cancel</Icon>&nbsp;Cancel
-                    </SoftButton>
-                  </>
-                )}
-              </>
-            )}
-          </SoftBox>
+         
         </SoftBox>
       </SoftBox>
     </SoftBox>
   );
 }
 
-RequestCard.propTypes = {
+PenddingResevationsCard.propTypes = {
   charger_id: PropTypes.number.isRequired,
   renter_id: PropTypes.number.isRequired,
   Provider_id: PropTypes.number.isRequired,
@@ -255,4 +228,4 @@ RequestCard.propTypes = {
   reservation_status: PropTypes.string.isRequired,
 };
 
-export default RequestCard;
+export default PenddingResevationsCard;

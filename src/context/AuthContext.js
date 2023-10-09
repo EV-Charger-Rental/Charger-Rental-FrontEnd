@@ -48,9 +48,12 @@ export default function LoginProvider(props) {
 
       validateMyUser(response.body);
       return response;
+
     } catch (err) {
       console.error('Error during login:', err);
     }
+
+
   };
 
   const logoutFunction = () => {
@@ -60,7 +63,8 @@ export default function LoginProvider(props) {
     cookie.remove('username');
     cookie.remove('capabilities');
     cookie.remove('userId');
-    
+    cookie.remove('Role');
+
     // window.location.reload();
   };
 
@@ -73,6 +77,8 @@ export default function LoginProvider(props) {
       cookie.save('capabilities', userData.user.capabilities);
       cookie.save('token', userData.token);
       cookie.save('userId',userData.user.id);
+      cookie.save('Role',userData.user.role);
+
       setLoginStatus(true);
     } else {
       setUser({});

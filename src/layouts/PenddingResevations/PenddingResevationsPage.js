@@ -4,11 +4,11 @@ import SoftBox from "components/SoftBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import RequestInformation from "./RequestInformation/index";
+import PenddingResevationsInformation from "./PenddingResevationsInformation/index";
 import { LoginContext } from '../../context/AuthContext';
 import cookie from 'react-cookies';
 
-function RequestPage() {
+function PenddingResevationsPage() {
   const [userRequests, setUserRequests] = useState([]);
   const { user } = useContext(LoginContext); 
   console.log(userRequests);
@@ -22,7 +22,7 @@ function RequestPage() {
   const fetchUserRequests = async () => {
     const userId = cookie.load('userId');
     try {
-      const response = await fetch(`https://ev-rental.onrender.com/api/v2/reservation/user-reservation/${userId}`, {
+      const response = await fetch(`https://ev-rental.onrender.com/api/v2/reservation/renter/${userId}`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${user.token}`,
@@ -51,7 +51,7 @@ console.log(userRequests);
       <SoftBox my={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={25}>
-            <RequestInformation userRequests={userRequests} />
+            <PenddingResevationsInformation userRequests={userRequests} />
           
           </Grid>
         </Grid>
@@ -61,4 +61,4 @@ console.log(userRequests);
   );
 }
 
-export default RequestPage;
+export default PenddingResevationsPage;
