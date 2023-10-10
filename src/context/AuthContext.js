@@ -48,9 +48,12 @@ export default function LoginProvider(props) {
 
       validateMyUser(response.body);
       return response;
+
     } catch (err) {
       console.error('Error during login:', err);
     }
+
+
   };
 
   const logoutFunction = () => {

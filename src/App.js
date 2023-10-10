@@ -17,6 +17,7 @@ import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "contex
 import { useSelector } from "react-redux"; 
 import brand from "assets/images/logo-ct.png";
 import routes from "routes"; 
+// import signup from './'; 
 
 
 export default function App() {
@@ -108,7 +109,7 @@ export default function App() {
                 <Sidenav
                   color={sidenavColor}
                   brand={brand}
-                  brandName="Soft UI Dashboard"
+                  brandName="EV Charger Rental"
                   routes={routes}
                   onMouseEnter={handleOnMouseEnter}
                   onMouseLeave={handleOnMouseLeave}
@@ -132,7 +133,7 @@ export default function App() {
               <Sidenav
                 color={sidenavColor}
                 brand={brand}
-                brandName="Soft UI Dashboard"
+                brandName="EV Charger Rental"
                 routes={routes}
                 onMouseEnter={handleOnMouseEnter}
                 onMouseLeave={handleOnMouseLeave}
@@ -145,6 +146,7 @@ export default function App() {
           <Routes>
             {getRoutes(routes)}
             <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
+            {/* <Route path="/sign-up" element={<Navigate to="/authentication/sign-up" />} /> */}
           </Routes>
         </ThemeProvider>
       )}

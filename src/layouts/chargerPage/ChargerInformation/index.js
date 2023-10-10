@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect, useCallback } from "react";
+/* eslint-disable react/no-unescaped-entities */
+import React, { useState, useContext, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -14,24 +15,42 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import PropTypes from "prop-types";
 import InputLabel from "@mui/material/InputLabel";
+import MapComponent from "../../tables/data/map";
 import { LoginContext } from "../../../context/AuthContext";
 import cookie from "react-cookies";
+import Cookies from 'js-cookie'; // Import the Cookies library
 
 function ChargerInformation({ userChargers }) {
   const [openDialog, setOpenDialog] = useState(false);
+  const [openMapDialog, setOpenMapDialog] = useState(false);
+  const [locationSelected, setLocationSelected] = useState(false);
+  const [userMarkers, setUserMarkers] = useState([]);
+
   const [chargerInfo, setChargerInfo] = useState({
     ChargerType: "",
     status: "available",
     owner_id: 1,
     price: "1",
-    Chargerlocation: "Amman",
+    chargerAddress: "", // Add chargerAddress to the state
+    latitude: 0,
+    longitude: 0,
   });
+
   const [chargers, setChargers] = useState([]);
   const { user } = useContext(LoginContext);
 
-  // useEffect(() => {
-  //   setChargers(userChargers);
-  // }, [userChargers]);
+  useEffect(() => {
+    const savedLatitude = Cookies.get('selectedLatitude');
+    const savedLongitude = Cookies.get('selectedLongitude');
+
+    if (savedLatitude && savedLongitude) {
+      setChargerInfo({
+        ...chargerInfo,
+        latitude: parseFloat(savedLatitude),
+        longitude: parseFloat(savedLongitude),
+      });
+    }
+  }, []);
 
   const openAddChargerDialog = () => {
     setOpenDialog(true);
@@ -41,12 +60,43 @@ function ChargerInformation({ userChargers }) {
     setOpenDialog(false);
   };
 
+  const openMap = () => {
+    setLocationSelected(false);
+    setOpenMapDialog(true);
+  };
+
+  const closeMap = () => {
+    setUserMarkers([]);
+    setOpenMapDialog(false);
+  };
+
   const handleStatusChange = (event) => {
     setChargerInfo({ ...chargerInfo, status: event.target.value });
   };
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setChargerInfo({ ...chargerInfo, [name]: value });
+  };
+
+  const handleLocationSelect = (e) => {
+    if (e && e.latlng) {
+      const { lat, lng } = e.latlng;
+      const updatedChargerInfo = { ...chargerInfo };
+      updatedChargerInfo.latitude = lat;
+      updatedChargerInfo.longitude = lng;
+
+      setChargerInfo(updatedChargerInfo);
+      setLocationSelected(true);
+      closeMap();
+
+    }
+  };
+
   const addCharger = async () => {
     const userId = cookie.load("userId");
+    const chargerLat = cookie.load("selectedLatitude");
+    const chargerLong = cookie.load("selectedLongitude");
     if (!userId) {
       console.error("User ID not available");
       return;
@@ -54,11 +104,14 @@ function ChargerInformation({ userChargers }) {
 
     chargerInfo.owner_id = parseInt(userId, 10);
     chargerInfo.price = parseFloat(chargerInfo.price);
+    chargerInfo.latitude = parseFloat(chargerLat);
+    chargerInfo.longitude = parseFloat(chargerLong);
 
     if (!chargerInfo.ChargerType) {
       console.error("Charger Type is required");
       return;
     }
+
     try {
       const response = await fetch("https://ev-rental.onrender.com/api/v2/charger", {
         method: "POST",
@@ -75,6 +128,8 @@ function ChargerInformation({ userChargers }) {
         setChargers([...chargers, responseData]);
         closeAddChargerDialog();
         window.location.reload();
+
+
       } else {
         console.error("Error adding charger:", response.statusText);
       }
@@ -82,23 +137,6 @@ function ChargerInformation({ userChargers }) {
       console.error("Error during charger addition:", error);
     }
   };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setChargerInfo({ ...chargerInfo, [name]: value });
-  };
-
-  const updateChargerData = useCallback((editedCharger) => {
-    setChargers((prevChargers) => {
-      const index = prevChargers.findIndex((charger) => charger.id === editedCharger.id);
-
-      if (index !== -1) {
-        prevChargers[index] = editedCharger;
-      }
-
-      return [...prevChargers];
-    });
-  }, []);
 
   return (
     <Card id="delete-account">
@@ -121,15 +159,14 @@ function ChargerInformation({ userChargers }) {
           </Button>
         </div>
         <Grid container spacing={2}>
-          {userChargers.map((charger, index) => (
-            <Grid item xs={12} key={index}>
+          {userChargers.map((charger) => (
+            <Grid item xs={12} key={charger.id}>
               <ChargerCard
                 chargerId={charger.id}
                 ChargerType={charger.ChargerType}
-                Chargerlocation={charger.Chargerlocation}
                 status={charger.status}
                 price={charger.price}
-                updateChargerData={updateChargerData}
+                chargerAddress={charger.chargerAddress} // Pass chargerAddress as a prop
               />
             </Grid>
           ))}
@@ -211,25 +248,69 @@ function ChargerInformation({ userChargers }) {
               </div>
             )}
           </MenuItem>
+
           <MenuItem>
             <div style={{ display: 'flex', alignItems: 'baseline' }}>
-              <InputLabel htmlFor="Chargerlocation" sx={{ paddingRight: '16px', minWidth: '80px', fontSize: '14px' }}>
-                Location
+              <InputLabel htmlFor="chargerAddress" sx={{ paddingRight: '16px', minWidth: '150px', fontSize: '14px' }}>
+                Charger Address
               </InputLabel>
-              <TextField
-                name="Chargerlocation"
-                id="Chargerlocation"
+              <Select
+                name="chargerAddress"
+                id="chargerAddress"
                 variant="outlined"
                 fullWidth
-                value={chargerInfo.Chargerlocation}
+                value={chargerInfo.chargerAddress}
                 onChange={handleInputChange}
-              />
+              >
+                <MenuItem value="">
+                <em>Select a city</em>
+                </MenuItem>
+                <MenuItem value="Amman">Amman</MenuItem>
+                <MenuItem value="Irbid">Irbid</MenuItem>
+                <MenuItem value="Zarqa">Zarqa</MenuItem>
+                <MenuItem value="Aqaba">Aqaba</MenuItem>
+                <MenuItem value="Mafraq">Mafraq</MenuItem>
+                <MenuItem value="Madaba">Madaba</MenuItem>
+                <MenuItem value="Karak">Karak</MenuItem>
+                <MenuItem value="Tafilah">Tafilah</MenuItem>
+                <MenuItem value="Balqa">Balqa</MenuItem>
+                <MenuItem value="Ma'an">Ma'an</MenuItem>
+                <MenuItem value="Jerash">Jerash</MenuItem>
+                <MenuItem value="Ajloun">Ajloun</MenuItem>
+              </Select>
             </div>
+            <MenuItem style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button onClick={openMap} color="text">
+                Add Location
+              </Button>
+            </MenuItem>
           </MenuItem>
+
+
+          {/* <MenuItem>
+            <Button onClick={openMap} color="text">
+              Add Location
+            </Button>
+          </MenuItem> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={closeAddChargerDialog}>Cancel</Button>
           <Button onClick={addCharger}>Add Charger</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openMapDialog}
+        onClose={closeMap}
+        maxWidth="md"
+        fullWidth={true}
+      >
+        <DialogTitle>Add Charger Location</DialogTitle>
+        <DialogContent>
+          <MapComponent onLocationSelect={handleLocationSelect} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeMap}>Take Location</Button>
         </DialogActions>
       </Dialog>
     </Card>
@@ -239,9 +320,9 @@ function ChargerInformation({ userChargers }) {
 ChargerInformation.propTypes = {
   userChargers: PropTypes.arrayOf(PropTypes.shape({
     ChargerType: PropTypes.string.isRequired,
-    Chargerlocation: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
+    chargerAddress: PropTypes.string.isRequired,
   })).isRequired,
 };
 
