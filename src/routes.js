@@ -18,7 +18,6 @@ import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
 import ChatIcon from "@mui/icons-material/Chat";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ChargerPage from './layouts/chargerPage/chargerPage';
-import ChatPage from './layouts/chatPage/chatPage';
 import Logout from './layouts/authentication/logout/logout';
 import InProgressGet from "layouts/inProgress/InProgressGet";
 import Historyget from "layouts/History/Historyget";
@@ -33,7 +32,7 @@ import { History } from '@mui/icons-material'; // Import the MUI icon component 
 import { ListAlt } from '@mui/icons-material'; // Import the MUI icon component for "Requests"
 import { Pending } from '@mui/icons-material';
 
-const userRole = cookie.load('Role');
+const userRole = cookie.load('role');
 const routes = [
   {
     type: "collapse",
@@ -86,7 +85,7 @@ const routes = [
     type: "collapse",
     name: "Chat",
     key: "chat",
-    route: "/dashboard/chat",
+    route: "/chat",
     icon: <ChatIcon size="12px" />,
     //  component: <ChatView />,
     component: <App />,

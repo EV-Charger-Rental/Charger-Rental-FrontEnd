@@ -27,6 +27,7 @@ import '../style.css';
 
 // for testing purposes only
 import cookie from 'react-cookies';
+import { socket } from '../socketClient'
 
 
 
@@ -34,24 +35,25 @@ import cookie from 'react-cookies';
 
 export default function ChatView() {
 
-  cookie.save('username', "mohammad");
-  cookie.save('capabilities',
-    [
-      "read",
-      "create",
-      "update",
-      "delete"
-    ]);
-  cookie.save('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vaGFtbWFkIiwicm9sZSI6IlByb3ZpZGVyIiwiaWF0IjoxNjk2NDA0ODQ0fQ.AbwuiWbgCqjpayG2bvTBR52meoeQYg-R4LKnQNEui74");
-  cookie.save('userId', 1);
-  cookie.save('email',"www")
-  cookie.save('phone', "1234567890");
-
-  
-
   const router = useRouter();
 
-  const { user } = useMockedUser();
+  // const { user } = useMockedUser();
+
+  const user = {
+    "id": cookie.load('userId'),
+    "displayName": cookie.load('username'),
+    "email": cookie.load('email'),
+    "photoURL": "https://api-dev-minimal-v510.vercel.app/assets/images/avatar/avatar_25.jpg",
+    "phoneNumber": cookie.load('phoneNumber'),
+    "address": cookie.load('address'),
+    "role": cookie.load('role'),
+    "state": "California",
+    "city": "San Francisco",
+    "zipCode": "94116",
+    "about": "Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.",
+    "role": "admin",
+    "isPublic": true
+  }
 
   const settings = useSettingsContext();
 
@@ -60,16 +62,47 @@ export default function ChatView() {
   const selectedConversationId = searchParams.get('id') || '';
 
   const [recipients, setRecipients] = useState([]);
+  const [refreshConversations, setRefreshConversations] = useState(false);
+
+// injectinng the new message in the conversation object
+let[newMessage, setNewMessage] = useState({})
+
+socket.on('send-back-message', (message) => {  // use once instead of on to avoid multiple listeners for the same event
+  
+  setNewMessage(message);
+});
+console.log('baby message', newMessage)
+
+
 
   const { contacts } = useGetContacts();
 
-  const { conversations, conversationsLoading } = useGetConversations();
+  const { conversations, conversationsLoading } = useGetConversations(parseInt(user.id), selectedConversationId);
 
   const { conversation, conversationError } = useGetConversation(`${selectedConversationId}`);
 
+  // console.log('conversationsssssssssssssssssssssssss', conversation);
+  console.log('my messssages', conversation?.messages); 
+  // console.log('my participants before', conversation?.participants);
+  // console.log('my contact', user);
+
+  //update the conversation object with the new message
+  if(newMessage && Object.keys(newMessage).length !== 0){
+    if (conversation?.messages && newMessage) {
+      conversation.messages.push(newMessage);
+      setNewMessage(null);
+    }
+  }
+
+
+
+
   const participants = conversation
-    ? conversation.participants.filter((participant) => participant.id !== user.id)
+    ? conversation.participants.filter(participant => participant.userId !== parseInt(user.id))
     : [];
+
+    
+  // console.log('participants after', participants);
 
   useEffect(() => {
     if (conversationError || !selectedConversationId) {
@@ -81,8 +114,8 @@ export default function ChatView() {
     setRecipients(selected);
   }, []);
 
-  const details = !!conversation;//copilot can you explain this line?   
-
+  const details = !!conversation;
+  // >?????>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const renderHead = (
     <Stack
       direction="row"
@@ -90,7 +123,6 @@ export default function ChatView() {
       flexShrink={0}
       sx={{ pr: 1, pl: 2.5, py: 1, minHeight: 72 }}
     >
-      {console.log('>>>>>>>>>>>>>>>participants', participants)}
       {selectedConversationId ? (
         <>{details && <ChatHeaderDetail participants={participants} />}</>
       ) : (
@@ -116,22 +148,41 @@ export default function ChatView() {
         overflow: 'hidden',
       }}
     >
-      <ChatMessageList messages={conversation?.messages} participants={participants} />
+      {/* <ChatMessageList messages={conversation?.messages} participants={participants} /> */}
+      {selectedConversationId ? <ChatMessageList messages={conversation?.messages} participants={participants} /> :
+        <ChatMessageList messages={[]} participants={[]} />
+      }
 
       <ChatMessageInput
+        setNewMessage={setNewMessage}
+        refreshData={setRefreshConversations}
         recipients={recipients}
         onAddRecipients={handleAddRecipients}
-        //
         selectedConversationId={selectedConversationId}
         disabled={!recipients.length && !selectedConversationId}
       />
     </Stack>
   );
 
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ 
+  // socket.emit('checkin user', (cookie.load('username')))
+
+  useEffect(() => {
+    socket.emit('checkin user', (cookie.load('username')))
+  }, []);
+
+
+
+  useEffect(() => {
+    const chatBox = document.querySelector('#chatBox');
+    chatBox.scrollTop = chatBox.scrollHeight;
+  },[conversation?.messages.length])  
+
 
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'} >
+    <Container maxWidth={settings.themeStretch ? false : 'xl'} style={{ width: 'auto' }} >
       <Typography
         variant="h4"
         sx={{
