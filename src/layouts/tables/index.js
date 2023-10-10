@@ -1,11 +1,11 @@
 
 import Card from "@mui/material/Card";
 
-// Soft UI Dashboard React components
+// EV Charger Rental React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 
-// Soft UI Dashboard React examples
+// EV Charger Rental React examples
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";

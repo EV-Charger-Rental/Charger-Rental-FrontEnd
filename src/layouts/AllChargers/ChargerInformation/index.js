@@ -99,7 +99,7 @@ function ChargerInformation({ userChargers }) {
       <CardContent>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Typography variant="h6" fontWeight="medium">
-            Your Chargers
+            All Chargers
           </Typography>
          
         </div>

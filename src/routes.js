@@ -12,6 +12,8 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+import { Map } from '@mui/icons-material'; 
+import { AccountCircle } from '@mui/icons-material'; 
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
 import ChatIcon from "@mui/icons-material/Chat";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
@@ -26,129 +28,60 @@ import PenddingResevationsPage from './layouts/PenddingResevations/PenddingResev
 import InProgressRenterGet from './layouts/inProgressRenter/InProgressRenterGet';
 import HistoryReservationsget from './layouts/HistoryReservations/HistoryReservationsget';
 import cookie from 'react-cookies';
+import { HourglassEmpty } from '@mui/icons-material'; // Import the MUI icon component for "In Progress"
+import { History } from '@mui/icons-material'; // Import the MUI icon component for "History"
+import { ListAlt } from '@mui/icons-material'; // Import the MUI icon component for "Requests"
+import { Pending } from '@mui/icons-material';
 
 const userRole = cookie.load('Role');
-console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ",userRole)
 const routes = [
   {
     type: "collapse",
     name: "Requests",
     key: "Requests",
     route: "/Requests",
-    icon: userRole === 'Provider' ? <Shop size="12px" /> : <Shop size="12px"  />, // Replace YourRenterIcon with the actual renter icon
-    component: userRole === 'Provider' ? <Dashboard /> : <AllChargers  />, // Replace YourRenterComponent with the actual renter component
+    icon: <ListAlt fontSize="small" />, // Replace with the MUI "Requests" icon component
+    component: userRole === 'Provider' ? <Dashboard /> : <AllChargers />,
     noCollapse: true,
-  },
+  }
+  ,
   {
     type: "collapse",
-    name: userRole === 'Provider' ? "Charger" :"Pendding Requests",
+    name: userRole === 'Provider' ? "Charger" : "Pendding Requests",
     key: "charger",
-    route: "/charger",   
-    icon: userRole === 'Provider' ? <BatteryChargingFullIcon fontSize="small" /> : <BatteryChargingFullIcon fontSize="small" />,
+    route: "/charger",
+    icon: userRole === 'Provider' ? <BatteryChargingFullIcon fontSize="small" /> : <Pending  fontSize="small" />,
     component: userRole === 'Provider' ? <ChargerPage /> : <PenddingResevationsPage />,
     noCollapse: true,
-  },
+  }, 
   {
     type: "collapse",
     name: "In Progress Requests",
     key: "inprogress",
     route: "/InprogressRequests",
-    icon: userRole === 'Provider' ? <Shop size="12px" /> : <Shop size="12px"  />, // Replace YourRenterIcon with the actual renter icon
-    component: userRole === 'Provider' ? <InProgressGet /> : <InProgressRenterGet  />, // Replace YourRenterComponent with the actual renter component
+    icon: <HourglassEmpty fontSize="small" />, // Replace with the MUI "In Progress" icon component
+    component: userRole === 'Provider' ? <InProgressGet /> : <InProgressRenterGet />,
     noCollapse: true,
-  },
-  {
+  }, 
+ {
     type: "collapse",
     name: "History Reservations",
     key: "history",
     route: "/history",
-    icon: userRole === 'Provider' ? <Shop size="12px" /> : <Shop size="12px"  />, // Replace YourRenterIcon with the actual renter icon
-    component: userRole === 'Provider' ? <Historyget /> : <HistoryReservationsget  />, // Replace YourRenterComponent with the actual renter component
+    icon: <History fontSize="small" />, // Replace with the MUI "History" icon component
+    component: userRole === 'Provider' ? <Historyget /> : <HistoryReservationsget />,
     noCollapse: true,
-  },
+  }
+  ,
   {
     type: "collapse",
     name: "Chargers Map",
-    key: "tables",
-    route: "/tables",
-    icon: <Office size="12px" />,
+    key: "Chargers Map",
+    route: "/ChargersMap",
+    icon: <Map fontSize="small" />, // Replace with the MUI map icon component
     component: <Tables />,
     noCollapse: true,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Provider Requests",
-  //   key: "dashboard",
-  //   route: "/dashboard",
-  //   icon: <Shop size="12px" />,
-  //   component: <Dashboard />,
-  //   noCollapse: true,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Add Reservation",
-  //   key: "RenterReservation",
-  //   route: "/RenterReservation",
-  //   icon: <Shop size="12px" />,
-  //   component: <RequestReservation />,
-  //   noCollapse: true,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "Add Reservation",
-  //   key: "RenterReservation",
-  //   route: "/RenterReservation",
-  //   icon: <Shop size="12px" />,
-  //   component: <AllChargers />,
-  //   noCollapse: true,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "In Progress",
-  //   key: "inprogress",
-  //   route: "/inprogress",
-  //   icon: <Shop size="12px" />,
-  //   component: <InProgressGet />,
-  //   noCollapse: true,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "History Reservations",
-  //   key: "history",
-  //   route: "/history",
-  //   icon: <Shop size="12px" />,
-  //   component: <Historyget />,
-  //   noCollapse: true,
-  // },
-
-  
-  // {
-  //   type: "collapse",
-  //   name: "Pendding Requests",
-  //   key: "PenddingResevationsPage",
-  //   route: "/PenddingResevationsPage",   
-  //   icon: <BatteryChargingFullIcon fontSize="small" />,
-  //   component: <PenddingResevationsPage />,
-  //   noCollapse: true,
-  // },
-  // {
-  //   type: "collapse",
-  //   name: "History Requests",
-  //   key: "HistoryRenterGet",
-  //   route: "/HistoryRenterGet",   
-  //   icon: <BatteryChargingFullIcon fontSize="small" />,
-  //   component: <InProgressRenterGet />,
-  //   noCollapse: true,
-  // },  
-  // {
-  //   type: "collapse",
-  //   name: "In-progress Requests",
-  //   key: "InProgressRenterGet",
-  //   route: "/InProgressRenterGet",   
-  //   icon: <BatteryChargingFullIcon fontSize="small" />,
-  //   component: <HistoryReservationsget />,
-  //   noCollapse: true,
-  // },
   {
     type: "collapse",
     name: "Chat",
@@ -159,57 +92,27 @@ const routes = [
     component: <App />,
     noCollapse: true,
   },
- 
-  { type: "title", title: "Account Pages", key: "account-pages" },
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
-    route: "/profile",
-    icon: <CustomerSupport size="12px" />,
-    component: <Profile />,
-    noCollapse: true,
-  },
   {
     type: "collapse",
     name: "Sign Out",
-    key: "sign-up",
+    key: "sign-Out",
     route: "/authentication/sign-in",
     icon: <ExitToAppIcon fontSize="small" />,
     component: <SignIn />,
     noCollapse: true,
   },
- 
   {
     type: "collapse",
     name: "Sign Up",
     key: "sign-up",
     route: "/authentication/sign-up",
-    icon: <SpaceShip size="12px" />,
+    icon: <AccountCircle fontSize="small" />,
     component: <SignUp />,
     noCollapse: true,
-  },
- 
-  
+  }
 ];
 
 export default routes;
 
 
-// const userRole = getUserRole(); // Replace this with the logic to determine the user's role
 
-// const routes = [
-//   // Other routes...
-//   {
-//     type: "collapse",
-//     name: "Add Reservation",
-//     key: "RenterReservation",
-//     route: "/RenterReservation",
-//     icon: userRole === "provider" ? <Shop size="12px" /> : <YourRenterIcon size="12px" />, // Replace YourRenterIcon with the actual renter icon
-//     component: userRole === "provider" ? <AllChargers /> : <YourRenterComponent />, // Replace YourRenterComponent with the actual renter component
-//     noCollapse: true,
-//   },
-//   // Other routes...
-// ];
-
-// export default routes;
