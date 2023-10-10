@@ -15,19 +15,11 @@ Coded by www.creative-tim.com
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
-
-// @mui material components
 import Grid from "@mui/material/Grid";
-
-// EV Charger Rental React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
-
-// EV Charger Rental React examples
 import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import PageLayout from "examples/LayoutContainers/PageLayout";
-
-// Authentication layout components
 import Footer from "layouts/authentication/components/Footer";
 
 function BasicLayout({ title, description, image, children }) {
@@ -43,7 +35,7 @@ function BasicLayout({ title, description, image, children }) {
         light
       />
       <SoftBox
-        width="calc(100% - 2rem)"
+        width="100%" // Set the width to 100% to span the entire page
         minHeight="50vh"
         borderRadius="lg"
         mx={2}
@@ -77,7 +69,7 @@ function BasicLayout({ title, description, image, children }) {
           </Grid>
         </Grid>
       </SoftBox>
-      <SoftBox mt={{ xs: -26, lg: -24 }} px={1} width="calc(100% - 2rem)" mx="auto">
+      <SoftBox mt={{ xs: -26, lg: -24 }} px={1} width="100%" mx="auto"> {/* Set the width to 100% */}
         <Grid container spacing={1} justifyContent="center">
           <Grid item xs={11} sm={9} md={5} lg={4} xl={3}>
             {children}
@@ -89,13 +81,11 @@ function BasicLayout({ title, description, image, children }) {
   );
 }
 
-// Setting default values for the props of BasicLayout
 BasicLayout.defaultProps = {
   title: "",
   description: "",
 };
 
-// Typechecking props for the BasicLayout
 BasicLayout.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
