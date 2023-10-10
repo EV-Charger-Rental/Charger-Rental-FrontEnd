@@ -8,7 +8,7 @@ import cookie from 'react-cookies';
 
 
 
-const API = `https://ev-rental.onrender.com`;
+const API = process.env.REACT_APP_SERVER_URL;
 
 LoginProvider.propTypes = {
   children: PropTypes.node.isRequired,
@@ -60,6 +60,10 @@ export default function LoginProvider(props) {
     cookie.remove('username');
     cookie.remove('capabilities');
     cookie.remove('userId');
+    cookie.remove('email');
+    cookie.remove('address');
+    cookie.remove('phoneNumber');
+    cookie.remove('role');
     
     // window.location.reload();
   };
@@ -73,6 +77,10 @@ export default function LoginProvider(props) {
       cookie.save('capabilities', userData.user.capabilities);
       cookie.save('token', userData.token);
       cookie.save('userId',userData.user.id);
+      cookie.save('email', userData.user.email); 
+      cookie.save('address', userData.user.location);
+      cookie.save('phoneNumber', userData.user.phone);
+      cookie.save('role', userData.user.role);
       setLoginStatus(true);
     } else {
       setUser({});

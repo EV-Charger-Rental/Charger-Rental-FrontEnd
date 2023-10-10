@@ -32,6 +32,7 @@ const NAV_COLLAPSE_WIDTH = 96;
 
 export default function ChatNav({ loading, contacts, conversations, selectedConversationId }) {
 
+  // console.log ('>>>>>>', conversations)
 
 
   const theme = useTheme();
@@ -148,6 +149,8 @@ export default function ChatNav({ loading, contacts, conversations, selectedConv
 
   const renderList = (
     <>
+    {/* this line is to hide the mock convisations  */}
+    {/* {conversations.allIds=[]} */}
       {conversations.allIds.map((conversationId) => (
         <ChatNavItem
           key={conversationId}
@@ -189,7 +192,7 @@ export default function ChatNav({ loading, contacts, conversations, selectedConv
 
   const renderContent = (
     <>
-      <Stack direction="row" alignItems="center" justifyContent="center" sx={{ p: 2.5, pb: 0}}>
+      <Stack direction="row" alignItems="center" justifyContent="center" sx={{ p: 2.5, pb: 0,marginBottom:'10%'}}>
         {!collapseDesktop && (
           <>
             <ChatNavAccount />
@@ -210,7 +213,7 @@ export default function ChatNav({ loading, contacts, conversations, selectedConv
         )}
       </Stack>
 
-      <Box sx={{ p: 2.5, pt: 0 }}>{!collapseDesktop && renderSearchInput}</Box>
+      {/* <Box sx={{ p: 2.5, pt: 0 }}>{!collapseDesktop && renderSearchInput}</Box> */}
 
       <Scrollbar sx={{ pb: 1 }}>
         {searchContacts.query && renderListResults}

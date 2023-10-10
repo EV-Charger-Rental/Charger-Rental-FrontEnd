@@ -12,16 +12,32 @@ import { useMockedUser } from '../hooks/use-mocked-user';
 import Iconify from '../components/iconify';
 //
 import { useGetMessage } from './hooks';
+import cookie from 'react-cookies';
 
 // ----------------------------------------------------------------------
 
 export default function ChatMessageItem({ message, participants, onOpenLightbox }) {
-  const { user } = useMockedUser();
+  // const { user } = useMockedUser();
+  const user = {  
+    "id": cookie.load('userId'),
+    "displayName": cookie.load('username'),
+    "email": cookie.load('email'),
+    "photoURL": "https://api-dev-minimal-v510.vercel.app/assets/images/avatar/avatar_25.jpg",
+    "phoneNumber": cookie.load('phoneNumber'),
+    "address": cookie.load('address'),
+    "role": cookie.load('role'),
+    "state": "California",
+    "city": "San Francisco",
+    "zipCode": "94116",
+    "about": "Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.",
+    "role": "admin",
+    "isPublic": true
+  }
 
   const { me, senderDetails, hasImage } = useGetMessage({
     message,
     participants,
-    currentUserId: user.id,
+    currentUserId: parseInt(user.id),
   });
 
   const { firstName, avatarUrl } = senderDetails;
@@ -41,9 +57,9 @@ export default function ChatMessageItem({ message, participants, onOpenLightbox 
       }}
     >
       {!me && `${firstName},`} &nbsp;
-      {formatDistanceToNowStrict(new Date(createdAt), {
+      {/* {formatDistanceToNowStrict(new Date(createdAt), {
         addSuffix: true,
-      })}
+      })} */}
     </Typography>
   );
 

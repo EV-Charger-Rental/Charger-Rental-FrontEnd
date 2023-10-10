@@ -10,14 +10,37 @@ import AvatarGroup, { avatarGroupClasses } from '@mui/material/AvatarGroup';
 import { fToNow } from '../utils/format-time';
 // components
 import Iconify from '../components/iconify';
+import {socket} from './socketClient'
+import { useState,useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function ChatHeaderDetail({ participants }) {
-  const group = participants.length > 1;
 
+  // socket.emit('get Participant info', participants[0].userId)
+  // socket.on('send-participant-info back from server', (data) => {
+  //   console.log('daaaataaa',data)
+  // })
+
+  
+
+
+  // const [participantData, setParticipantData] = useState(null);
+  // const group = participants.length > 1;
+  // const singleParticipant = participantData;
+
+  // useEffect(() => {
+  //   socket.emit('get Participant info', participants[0].userId)
+  //   socket.on('send-participant-info back from server', (data) => {
+  //     setParticipantData(data)
+  //   })
+  // }, [participants]) 
+
+
+const group = participants.length > 1;
   const singleParticipant = participants[0];
 
+ 
   const renderGroup = (
     <AvatarGroup
       max={3}
@@ -29,22 +52,24 @@ export default function ChatHeaderDetail({ participants }) {
       }}
     >
       {participants.map((participant) => (
-        <Avatar key={participant.id} alt={participant.name} src={participant.avatarUrl} />
+        <Avatar key={participant.id} alt={participant.username} src={participant.avatarUrl} />
       ))}
     </AvatarGroup>
   );
 
-  const renderSingle = (
+  const renderSingle =
+  // participantData &&
+   (
     <Stack flexGrow={1} direction="row" alignItems="center" spacing={2}>
       <Badge
         variant={singleParticipant.status}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Avatar src={singleParticipant.avatarUrl} alt={singleParticipant.name} />
+        <Avatar src={'https://i.pinimg.com/originals/53/86/5c/53865ca313303682b3c1ec659fdd1695.jpg'} alt={singleParticipant.username} />
       </Badge>
 
       <ListItemText
-        primary={singleParticipant.name}
+        primary={singleParticipant.username}
         secondary={
           singleParticipant.status === 'offline'
             ? fToNow(singleParticipant.lastActivity)

@@ -16,11 +16,13 @@ import Iconify from '../components/iconify';
 export default function ChatRoomSingle({ participant }) {
   const collapse = useBoolean(true);
 
-  const { name, avatarUrl, role, address, phoneNumber, email } = participant;
+  // const { name, avatarUrl, role, address, phoneNumber, email } = participant;
+
+  const { username, avatarUrl, role, location, phone, email } = participant;
 
   const renderInfo = (
     <Stack alignItems="center" sx={{ py: 5 }}>
-      <Avatar alt={name} src={avatarUrl} sx={{ width: 96, height: 96, mb: 2 }} />
+      <Avatar alt={name} src={'https://i.pinimg.com/originals/53/86/5c/53865ca313303682b3c1ec659fdd1695.jpg'} sx={{ width: 96, height: 96, mb: 2 }} />
       <Typography variant="subtitle1">{name}</Typography>
       <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
         {role}
@@ -67,12 +69,12 @@ export default function ChatRoomSingle({ participant }) {
     >
       <Stack direction="row">
         <Iconify icon="mingcute:location-fill" />
-        <Typography variant="body2">{address}</Typography>
+        <Typography variant="body2">{location}</Typography>
       </Stack>
 
       <Stack direction="row">
         <Iconify icon="solar:phone-bold" />
-        <Typography variant="body2">{phoneNumber}</Typography>
+        <Typography variant="body2">{phone}</Typography>
       </Stack>
 
       <Stack direction="row">
