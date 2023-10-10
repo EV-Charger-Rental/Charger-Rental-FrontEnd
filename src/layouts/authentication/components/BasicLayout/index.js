@@ -1,33 +1,9 @@
-/**
-=========================================================
-* Soft UI Dashboard React - v4.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
-
-// @mui material components
 import Grid from "@mui/material/Grid";
-
-// Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
-
-// Soft UI Dashboard React examples
 import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import PageLayout from "examples/LayoutContainers/PageLayout";
-
-// Authentication layout components
 import Footer from "layouts/authentication/components/Footer";
 
 function BasicLayout({ title, description, image, children }) {
@@ -43,7 +19,7 @@ function BasicLayout({ title, description, image, children }) {
         light
       />
       <SoftBox
-        width="calc(100% - 2rem)"
+        width="100%" // Set the width to 100% to span the entire page
         minHeight="50vh"
         borderRadius="lg"
         mx={2}
@@ -77,7 +53,7 @@ function BasicLayout({ title, description, image, children }) {
           </Grid>
         </Grid>
       </SoftBox>
-      <SoftBox mt={{ xs: -26, lg: -24 }} px={1} width="calc(100% - 2rem)" mx="auto">
+      <SoftBox mt={{ xs: -26, lg: -24 }} px={1} width="100%" mx="auto"> {/* Set the width to 100% */}
         <Grid container spacing={1} justifyContent="center">
           <Grid item xs={11} sm={9} md={5} lg={4} xl={3}>
             {children}
@@ -89,13 +65,11 @@ function BasicLayout({ title, description, image, children }) {
   );
 }
 
-// Setting default values for the props of BasicLayout
 BasicLayout.defaultProps = {
   title: "",
   description: "",
 };
 
-// Typechecking props for the BasicLayout
 BasicLayout.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,

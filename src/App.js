@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Provider } from "react-redux"; // Import Provider from react-redux
-import store from "./store/store"; // Import your Redux store
+import { Provider } from "react-redux";
+import store from "./store/store";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,6 +18,9 @@ import { useSelector } from "react-redux";
 import brand from "assets/images/logo-ct.png";
 import routes from "routes"; 
 
+// Import your components for specific routes
+import FaqComponent from "./layouts/FaqComponent/FaqComponent";
+import AboutUsComponent from "./layouts/AboutUsComponent/AboutUsComponent"; 
 
 export default function App() {
   const [controller, dispatch] = useSoftUIController();
@@ -120,6 +123,8 @@ export default function App() {
             {layout === "vr" && <Configurator />}
             <Routes>
               {getRoutes(routes)}
+              <Route path="/faq" element={<FaqComponent />} /> {/* FAQ Route */}
+              <Route path="/about-us" element={<AboutUsComponent />} /> {/* About Us Route */}
               <Route path="*" element={<Navigate to="/dashboard" />} />
             </Routes>
           </ThemeProvider>
@@ -144,6 +149,8 @@ export default function App() {
           {layout === "vr" && <Configurator />}
           <Routes>
             {getRoutes(routes)}
+            <Route path="/faq" element={<FaqComponent />} /> {/* FAQ Route */}
+            <Route path="/about-us" element={<AboutUsComponent />} /> {/* About Us Route */}
             <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
           </Routes>
         </ThemeProvider>
