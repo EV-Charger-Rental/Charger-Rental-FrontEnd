@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Soft UI Dashboard React - v4.0.1
+* EV Charger Rental React - v4.0.1
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-react
@@ -26,7 +26,7 @@ import Icon from "@mui/material/Icon";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 
-// Soft UI Dashboard React components
+// EV Charger Rental React components
 import SoftBox from "components/SoftBox";
 import SoftTypography from "components/SoftTypography";
 import SoftButton from "components/SoftButton";
@@ -34,7 +34,7 @@ import SoftButton from "components/SoftButton";
 // Custom styles for the Configurator
 import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
 
-// Soft UI Dashboard React context
+// EV Charger Rental React context
 import {
   useSoftUIController,
   setOpenConfigurator,
@@ -202,19 +202,20 @@ function Configurator() {
           <SoftBox mb={2}>
             <SoftButton
               component={Link}
-              href="https://www.creative-tim.com/product/soft-ui-dashboard-react"
+              href="https://screenpal.com/watch/c066jYV5mbk"
               target="_blank"
               rel="noreferrer"
               color="dark"
               variant="gradient"
               fullWidth
             >
-              free download
+             More Details
             </SoftButton>
           </SoftBox>
           <SoftButton
             component={Link}
-            href="https://www.creative-tim.com/learning-lab/react/quick-start/soft-ui-dashboard/"
+            href="
+            https://screenpal.com/watch/c066jYV5mbk"
             target="_blank"
             rel="noreferrer"
             color="dark"
@@ -227,7 +228,8 @@ function Configurator() {
         <SoftBox display="flex" justifyContent="center">
           <a
             className="github-button"
-            href="https://github.com/creativetimofficial/soft-ui-dashboard-react"
+            href="
+            https://screenpal.com/watch/c066jYV5mbk"
             data-icon="octicon-star"
             data-size="large"
             data-show-count="true"
@@ -254,16 +256,7 @@ function Configurator() {
                 &nbsp; Tweet
               </SoftButton>
             </SoftBox>
-            <SoftButton
-              component={Link}
-              href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/soft-ui-dashboard-react"
-              target="_blank"
-              rel="noreferrer"
-              color="dark"
-            >
-              <FacebookIcon />
-              &nbsp; Share
-            </SoftButton>
+          
           </SoftBox>
         </SoftBox>
       </SoftBox>
