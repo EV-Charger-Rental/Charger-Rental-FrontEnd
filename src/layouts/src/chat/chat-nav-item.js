@@ -21,10 +21,27 @@ import { clickConversation } from '../api/chat';
 //
 import { useGetNavItem } from './hooks';
 
+import cookie from 'react-cookies';
+
 // ----------------------------------------------------------------------
 
 export default function ChatNavItem({ selected, collapse, conversation, onCloseMobile }) {
-  const { user } = useMockedUser();
+  // const { user } = useMockedUser();
+  const user = {
+    "id": cookie.load('userId'),
+    "displayName": cookie.load('username'),
+    "email": cookie.load('email'),
+    "photoURL": "https://api-dev-minimal-v510.vercel.app/assets/images/avatar/avatar_25.jpg",
+    "phoneNumber": cookie.load('phoneNumber'),
+    "address": cookie.load('address'),
+    "role": cookie.load('role'),
+    "state": "California",
+    "city": "San Francisco",
+    "zipCode": "94116",
+    "about": "Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.",
+    "role": "admin",
+    "isPublic": true
+  }
 
   const mdUp = useResponsive('up', 'md');
 
@@ -33,7 +50,7 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
   const { group, displayName, displayText, participants, lastActivity, hasOnlineInGroup } =
     useGetNavItem({
       conversation,
-      currentUserId: user.id,
+      currentUserId: parseInt(user.id),
     });
 
   const singleParticipant = participants[0];
@@ -46,8 +63,9 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
         onCloseMobile();
       }
 
+  
       await clickConversation(conversation.id);
-
+      
       router.push(`${paths.dashboard.chat}?id=${conversation.id}`);
     } catch (error) {
       console.error(error);
@@ -102,7 +120,7 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
               noWrap: true,
               variant: 'subtitle2',
             }}
-            secondary={displayText}
+            // secondary={displayText}
             secondaryTypographyProps={{
               noWrap: true,
               component: 'span',

@@ -10,7 +10,7 @@ export default function useGetMessage({ message, participants, currentUserId }) 
         }
       : {
           avatarUrl: sender?.avatarUrl,
-          firstName: sender?.name.split(' ')[0],
+          firstName: sender?.username
         };
 
   const me = senderDetails.type === 'me';

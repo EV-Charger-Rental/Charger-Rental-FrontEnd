@@ -11,7 +11,7 @@ export default function useGetNavItem({ currentUserId, conversation }) {
 
   const group = participantsInConversation.length > 1;
 
-  const displayName = participantsInConversation.map((participant) => participant.name).join(', ');
+  const displayName = participantsInConversation.map((participant) => participant.username).join(', ');
 
   const hasOnlineInGroup = group
     ? participantsInConversation.map((item) => item.status).includes('online')

@@ -67,10 +67,16 @@ import Lightbox, { useLightBox } from '../components/lightbox';
 import ChatMessageItem from './chat-message-item';
 
 export default function ChatMessageList({ messages = [], participants }) {
+
+  // console.log("messages", messages)
+  // console.log("participants", participants)
+
   const slides = messages
     .filter((message) => message.contentType === 'image')
     .map((message) => ({ src: message.body }));
   const lightbox = useLightBox(slides);
+
+  console.log()
 
   useEffect(() => {
     const chatBox = document.querySelector('#chatBox');
@@ -78,6 +84,8 @@ export default function ChatMessageList({ messages = [], participants }) {
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   }, [messages]);
+
+ 
 
   return (
     <>

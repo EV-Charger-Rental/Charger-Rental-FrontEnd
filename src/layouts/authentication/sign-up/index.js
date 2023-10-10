@@ -86,19 +86,15 @@ function SignUp() {
   return (
     <BasicLayout
       title="Welcome!"
-      description="Use these awesome forms to sign up for your project for free."
+       description="Create Your Account"
       image={curved6}
     >
       <Card>
         <SoftBox p={3} mb={1} textAlign="center">
-          <SoftTypography variant="h5" fontWeight="medium">
-            Register with
+          <SoftTypography variant="h5" fontWeight="large" marginButtom="1px">
+            Sign Up
           </SoftTypography>
         </SoftBox>
-        <SoftBox mb={2}>
-          <Socials />
-        </SoftBox>
-        <Separator />
         <SoftBox pt={2} pb={3} px={3}>
           <SoftBox component="form" role="form" onSubmit={handleSubmit}>
             <SoftBox mb={2}>

@@ -17,6 +17,7 @@ import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "contex
 import { useSelector } from "react-redux"; 
 import brand from "assets/images/logo-ct.png";
 import routes from "routes"; 
+// import signup from './'; 
 
 // Import your components for specific routes
 import FaqComponent from "./layouts/FaqComponent/FaqComponent";
@@ -111,7 +112,7 @@ export default function App() {
                 <Sidenav
                   color={sidenavColor}
                   brand={brand}
-                  brandName="Soft UI Dashboard"
+                  brandName="EV Charger Rental"
                   routes={routes}
                   onMouseEnter={handleOnMouseEnter}
                   onMouseLeave={handleOnMouseLeave}
@@ -137,7 +138,7 @@ export default function App() {
               <Sidenav
                 color={sidenavColor}
                 brand={brand}
-                brandName="Soft UI Dashboard"
+                brandName="EV Charger Rental"
                 routes={routes}
                 onMouseEnter={handleOnMouseEnter}
                 onMouseLeave={handleOnMouseLeave}
@@ -152,6 +153,7 @@ export default function App() {
             <Route path="/faq" element={<FaqComponent />} /> {/* FAQ Route */}
             <Route path="/about-us" element={<AboutUsComponent />} /> {/* About Us Route */}
             <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
+            {/* <Route path="/sign-up" element={<Navigate to="/authentication/sign-up" />} /> */}
           </Routes>
         </ThemeProvider>
       )}

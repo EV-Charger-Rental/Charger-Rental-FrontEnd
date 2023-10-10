@@ -23,6 +23,9 @@ import ChatRoomAttachments from './chat-room-attachments';
 const NAV_WIDTH = 240;
 
 export default function ChatRoom({ participants, conversation }) {
+ 
+
+ 
   const theme = useTheme();
 
   const lgUp = useResponsive('up', 'lg');
@@ -64,7 +67,7 @@ export default function ChatRoom({ participants, conversation }) {
         <ChatRoomSingle participant={participants[0]} />
       )}
 
-      <ChatRoomAttachments attachments={attachments} />
+      {/* <ChatRoomAttachments attachments={attachments} /> */}
     </>
   );
 

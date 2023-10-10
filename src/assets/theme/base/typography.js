@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Soft UI Dashboard React - v3.1.0
+* EV Charger Rental React - v3.1.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/soft-ui-dashboard-pro-react
@@ -14,15 +14,15 @@ Coded by www.creative-tim.com
 */
 
 /**
- * The base typography styles for the Soft UI Dashboard React.
+ * The base typography styles for the EV Charger Rental React.
  * You can add new typography style using this file.
- * You can customized the typography styles for the entire Soft UI Dashboard React using thie file.
+ * You can customized the typography styles for the entire EV Charger Rental React using thie file.
  */
 
-// Soft UI Dashboard React Base Styles
+// EV Charger Rental React Base Styles
 import colors from "assets/theme/base/colors";
 
-// Soft UI Dashboard React Helper Functions
+// EV Charger Rental React Helper Functions
 import pxToRem from "assets/theme/functions/pxToRem";
 
 const { dark } = colors;

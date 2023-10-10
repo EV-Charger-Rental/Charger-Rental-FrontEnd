@@ -15,12 +15,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}   >
       <SocketClient>
-        {/* <Router> */}
-        {/* <Routes> */}
-        {/* <Route path="dashboard/chat" element={<ChatView />} /> */}
-        {/* Define other routes as needed */}
-        {/* </Routes> */}
-        {/* </Router> */}
         <ChatView />
       </SocketClient>
     </ThemeProvider>

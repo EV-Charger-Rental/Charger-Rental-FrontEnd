@@ -16,12 +16,15 @@ import uuidv4 from '../utils/uuidv4';
 import { sendMessage, createConversation } from '../api/chat';
 // components
 import Iconify from '../components/iconify';
-import {socket} from './socketClient'
+import { socket } from './socketClient'
+import cookie from 'react-cookies';
 
 
 // ----------------------------------------------------------------------
 
 export default function ChatMessageInput({
+  setNewMessage,
+  refreshData,
   recipients,
   onAddRecipients,
   //
@@ -33,11 +36,27 @@ export default function ChatMessageInput({
 
   const router = useRouter();
 
-  const { user } = useMockedUser();
+  // const { user } = useMockedUser();
 
   const fileRef = useRef(null);
 
   const [message, setMessage] = useState('');
+
+  const user = {
+    "id": cookie.load('userId'),
+    "displayName": cookie.load('username'),
+    "email": cookie.load('email'),
+    "photoURL": "https://api-dev-minimal-v510.vercel.app/assets/images/avatar/avatar_25.jpg",
+    "phoneNumber": cookie.load('phoneNumber'),
+    "address": cookie.load('address'),
+    "role": cookie.load('role'),
+    "state": "California",
+    "city": "San Francisco",
+    "zipCode": "94116",
+    "about": "Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.",
+    "role": "admin",
+    "isPublic": true
+  }
 
   const myContact = useMemo(
     () => ({
@@ -62,6 +81,8 @@ export default function ChatMessageInput({
       contentType: 'text',
       createdAt: sub(new Date(), { minutes: 1 }),
       senderId: myContact.id,
+      // senderId: cookie.load('userId'),
+      // recieverId: recipients.map((recipient) => recipient.id),
     }),
     [message, myContact.id]
   );
@@ -87,46 +108,86 @@ export default function ChatMessageInput({
     setMessage(event.target.value);
   }, []);
 
+
   const handleSendMessage = useCallback(
     async (event) => {
       try {
-        if (event.key === 'Enter') {
-          if (message) {
+        if (event.key === 'Enter' && message) {
+          if (selectedConversationId) {
+            console.log(' iam her 1111111111111')
+           let res = await sendMessage(selectedConversationId, messageData);
 
+            // const chatMessagesRef = document.getElementById('chat-messages');
+            // chatMessagesRef.scrollTop = chatMessagesRef.scrollHeight;
 
-            socket.emit('send-message', 'messageFromClient')
+            console.log('message>>>>>>>>>>>>>>>>>>>>>>before',message)
+            setMessage('');  // Clear the message once after sending or taking the relevant action
+            console.log('message>>>>>>>>>>>>>>>>>>>>>>after ',message)
 
-
-            
-            if (selectedConversationId) {
-              await sendMessage(selectedConversationId, messageData);
-              // when submit the message then scroll to bottom
-              // const chatMessagesRef = document.getElementById('chat-messages');
-              // chatMessagesRef.scrollTop = chatMessagesRef.scrollHeight;
-              setMessage('');
-
-              const chatMessagesRef = document.getElementById('chat-messages');
-              chatMessagesRef.scrollTop = chatMessagesRef.scrollHeight;
-
-              
+          } else {
+            const res = await createConversation(conversationData);
+            if (res.truthyValue) {
+              router.push(`${paths.dashboard.chat}?id=${res.id}`);
             } else {
-              const res = await createConversation(conversationData);
-
               router.push(`${paths.dashboard.chat}?id=${res.conversation.id}`);
-
-              onAddRecipients([]);
             }
+            refreshData(true);
+            onAddRecipients([]);
           }
-          setMessage('');
+          setMessage('');  // Clear the message once after sending or taking the relevant action
+
+
         }
       } catch (error) {
         console.error(error);
       }
     },
     [conversationData, message, messageData, onAddRecipients, router, selectedConversationId]
-  );
+);
 
-  
+  // const handleSendMessage = useCallback(
+  //   async (event) => {
+  //     try {
+  //       if (event.key === 'Enter') {
+  //         if (message) { 
+  //           if (selectedConversationId) {
+              
+  //            await sendMessage(selectedConversationId, messageData);
+  //             // when submit the message then scroll to bottom
+  //             // const chatMessagesRef = document.getElementById('chat-messages');
+  //             // chatMessagesRef.scrollTop = chatMessagesRef.scrollHeight;
+              
+  //             setMessage('');
+  //             const chatMessagesRef = document.getElementById('chat-messages');
+  //             chatMessagesRef.scrollTop = chatMessagesRef.scrollHeight;
+
+
+  //           } else {
+  //             const res = await createConversation(conversationData);
+  //             if (res.truthyValue) {
+  //               router.push(`${paths.dashboard.chat}?id=${res.id}`);
+  //               refreshData(true);
+  //               onAddRecipients([]);
+  //             }else{
+  //             router.push(`${paths.dashboard.chat}?id=${res.conversation.id}`);
+  //             refreshData(true);
+  //             onAddRecipients([]);
+  //             }
+  //           }
+  //         }
+
+  //         setMessage('');
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+
+      
+  //   },
+  //   [conversationData, message, messageData, onAddRecipients, router, selectedConversationId]
+  // );
+
+
 
   return (
     <>
@@ -172,4 +233,6 @@ ChatMessageInput.propTypes = {
   onAddRecipients: PropTypes.func,
   recipients: PropTypes.array,
   selectedConversationId: PropTypes.string,
+  refreshData: PropTypes.func,
+  setNewMessage: PropTypes.func,
 };
