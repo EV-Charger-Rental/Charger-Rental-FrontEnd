@@ -65,7 +65,7 @@ const group = participants.length > 1;
         variant={singleParticipant.status}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Avatar src={'https://i.pinimg.com/originals/53/86/5c/53865ca313303682b3c1ec659fdd1695.jpg'} alt={singleParticipant.username} />
+        <Avatar src={singleParticipant.avatarUrl} alt={singleParticipant.username} />
       </Badge>
 
       <ListItemText

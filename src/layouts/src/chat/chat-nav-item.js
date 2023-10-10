@@ -120,7 +120,7 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
               noWrap: true,
               variant: 'subtitle2',
             }}
-            secondary={displayText}
+            // secondary={displayText}
             secondaryTypographyProps={{
               noWrap: true,
               component: 'span',

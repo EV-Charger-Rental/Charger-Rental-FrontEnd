@@ -18,7 +18,6 @@ import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
 import ChatIcon from "@mui/icons-material/Chat";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ChargerPage from './layouts/chargerPage/chargerPage';
-import ChatPage from './layouts/chatPage/chatPage';
 import Logout from './layouts/authentication/logout/logout';
 import InProgressGet from "layouts/inProgress/InProgressGet";
 import Historyget from "layouts/History/Historyget";
@@ -82,16 +81,16 @@ const routes = [
     component: <Tables />,
     noCollapse: true,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Chat",
-  //   key: "chat",
-  //   route: "/dashboard/chat",
-  //   icon: <ChatIcon size="12px" />,
-  //   //  component: <ChatView />,
-  //   component: <App />,
-  //   noCollapse: true,
-  // },
+  {
+    type: "collapse",
+    name: "Chat",
+    key: "chat",
+    route: "/chat",
+    icon: <ChatIcon size="12px" />,
+    //  component: <ChatView />,
+    component: <App />,
+    noCollapse: true,
+  },
   {
     type: "collapse",
     name: "Sign Out",

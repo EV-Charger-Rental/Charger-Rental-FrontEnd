@@ -22,7 +22,7 @@ export default function ChatRoomSingle({ participant }) {
 
   const renderInfo = (
     <Stack alignItems="center" sx={{ py: 5 }}>
-      <Avatar alt={name} src={'https://i.pinimg.com/originals/53/86/5c/53865ca313303682b3c1ec659fdd1695.jpg'} sx={{ width: 96, height: 96, mb: 2 }} />
+      <Avatar alt={name} src={participant.avatarUrl} sx={{ width: 96, height: 96, mb: 2 }} />
       <Typography variant="subtitle1">{name}</Typography>
       <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
         {role}

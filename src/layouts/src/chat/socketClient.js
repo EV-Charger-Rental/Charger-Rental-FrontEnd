@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import io from 'socket.io-client';
 import cookie from 'react-cookies';
 
-const SERVER_URL = 'http://localhost:3000/new-peer-to-peer';
+// const SERVER_URL = 'http://localhost:3000/new-peer-to-peer';
+const SERVER_URL = `${process.env.REACT_APP_SERVER_URL}/new-peer-to-peer`
 
 const socket = io(SERVER_URL);
 
