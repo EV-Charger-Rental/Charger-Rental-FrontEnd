@@ -69,7 +69,7 @@ function Footer({ company, links }) {
         by
         <Link href={href} target="_blank">
           <SoftTypography variant="button" fontWeight="medium">
-            &nbsp;BitCrafter&nbsp;
+            &nbsp;BitCrafters Team&nbsp;
           </SoftTypography>
         </Link>
        

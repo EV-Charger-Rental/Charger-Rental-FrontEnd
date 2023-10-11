@@ -32,7 +32,7 @@ function ReservationInformation({ userReservations }) {
     endClok: "",
     total_price: ""
   });
-  
+
   const [reservations, setReservations] = useState([]);
   const { user } = useContext(LoginContext);
 
@@ -141,14 +141,14 @@ function ReservationInformation({ userReservations }) {
           {userReservations.map((reservation) => (
             <Grid item xs={12} key={reservation.id}>
               <ReservationCard
-               
-               startClok={reservation.startClok}
-               endClok={reservation.endClok}
-               ChargerType={reservation.endClok}
-               location={reservation.location}
+
+                startClok={reservation.startClok}
+                endClok={reservation.endClok}
+                ChargerType={reservation.endClok}
+                location={reservation.location}
 
 
- // Pass chargerAddress as a prop
+              // Pass chargerAddress as a prop
               />
             </Grid>
           ))}
@@ -178,9 +178,9 @@ function ReservationInformation({ userReservations }) {
               <MenuItem value="">
                 Choose The Charger Type
               </MenuItem>
-              <MenuItem value="type1">Type 1</MenuItem>
-              <MenuItem value="type2">Type 2</MenuItem>
-              <MenuItem value="type3">Type 3</MenuItem>
+              <MenuItem value="Level 1- 110 V">Level 1- 110 V</MenuItem>
+              <MenuItem value="Level 2- 220 V">Level 2- 220 V</MenuItem>
+              <MenuItem value="Level 3- 440 V">Level 3- 440 V</MenuItem>
             </Select>
           </MenuItem>
 

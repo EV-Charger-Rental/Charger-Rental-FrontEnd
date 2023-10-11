@@ -6,32 +6,32 @@ import './AboutUs.css';
 const profiles = [
   {
     name: 'Zainab Malkawi',
-    role: 'Electrical Engineer',
-    bio: 'The only skills I have the patience to learn are those that have no real application in life.',
+    role: 'Full Stack Developer',
+    bio: 'Electircal Engineer',
     image: 'https://i.ibb.co/MGC32w6/zainab.png',
     linkedinUrl: 'https://www.linkedin.com/in/zainabmalkawi',
     githubUrl: 'https://github.com/ZainabMalkawi94', // Add GitHub URL for each profile
   },
   {
     name: 'Natali Alkayed',
-    role: 'Computer Engineer',
-    bio: "The only skills I have the patience to learn are those that have no real application in life.",
+    role: 'Full Stack Developer',
+    bio: "Computer Enginer",
     image: 'https://i.ibb.co/jL36w03/Natali.png',
     linkedinUrl: 'https://www.linkedin.com/in/natali-alkayed-a80b81258',
     githubUrl: 'https://github.com/natali-alkayed', // Add GitHub URL for each profile
   },
   {
     name: 'Mohammad Al-Omari',
-    role: 'Civil Engineer',
-    bio: 'The only skills I have the patience to learn are those that have no real application in life.',
+    role: 'Full Stack Developer',
+    bio: 'Civil Engineer',
     image: 'https://i.ibb.co/3Bb3QjB/omari.png',
     linkedinUrl: 'https://www.linkedin.com/profile-url-3',
     githubUrl: 'https://github.com/Mohammad-Abdelkhaleq', // Add GitHub URL for each profile
   },
   {
     name: 'Mohammad Shawabkeh',
-    role: 'Civil Engineer',
-    bio: 'The only skills I have the patience to learn are those that have no real application in life.',
+    role: 'Full Stack Developer',
+    bio: 'Civil Engineer',
     image: 'https://i.ibb.co/RSfnjhv/shawabkeh.png',
     linkedinUrl: 'https://www.linkedin.com/in/mohammad-shawabkeh-aaab331b2/',
     githubUrl: 'https://github.com/mohamadshawabkeh', // Add GitHub URL for each profile
