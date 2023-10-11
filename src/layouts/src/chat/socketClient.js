@@ -18,7 +18,7 @@ const SocketClient = ({ children }) => {
     return () => {
       // Emit 'checkout user' event with username right before disconnecting
       const userName = cookie.load('username');
-      // socket.emit('checkout user', userName);
+      socket.emit('checkout user', userName);
 
       socket.disconnect();
       console.log('client disconnected');

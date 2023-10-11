@@ -267,37 +267,17 @@ export function sendMessage(conversationId, messageData) {
 
 // ----------------------------------------------------------------------
 
-export async function clickConversation(conversationId) {
-  const URL = endpoints.chat;
-
-  /**
-   * Work on server
-   */
-  // await axios.get(URL, { params: { conversationId, endpoint: 'mark-as-seen' } });
-
-  /**
-   * Work in local
-   */
-  mutate(
-    [
-      URL,
-      {
-        params: { endpoint: 'conversations' },
-      },
-    ],
-    (currentData) => {
-      // const conversations = currentData.conversations.map((conversation) =>
-      //   conversation.id === conversationId ? { ...conversation, unreadCount: 0 } : conversation
-      // );
-
-      // return {
-      //   ...currentData,
-      //   conversations,
-      // };
-    },
-    false
-  );
+export async function clickConversation(conversationId, userId) {
+  const data = { conversationId, userId };
+  let res;
+  res = await new Promise((resolve) => {
+    socket.emit('click-conversation', data);
+    resolve('conversation clicked'); // Resolve the promise with the received data.
+  });
+  return res;
 }
+ 
+
 
 // ----------------------------------------------------------------------
 

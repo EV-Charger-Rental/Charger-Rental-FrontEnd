@@ -20,6 +20,8 @@ import { useResponsive } from '../hooks/use-responsive';
 import { clickConversation } from '../api/chat';
 //
 import { useGetNavItem } from './hooks';
+import React, { useState, useEffect } from 'react'; // import useState and useEffect
+
 
 import cookie from 'react-cookies';
 
@@ -42,6 +44,24 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
     "role": "admin",
     "isPublic": true
   }
+  const [numberOfUnread, setNumberOfUnread] = useState(0);
+
+  const countUnreadMessages = () => {
+    let count = 0;
+    conversation.messages.forEach((message) => {
+      if (message.senderId !== parseInt(user.id) && message.status === 'unseen') {
+        count++;
+      }
+    });
+    return count;
+  };
+
+  // Use an effect to set the unread count when the component mounts or when 'conversation' changes
+  useEffect(() => {
+    setNumberOfUnread(countUnreadMessages());
+  }, [conversation]); // Dependency array, re-run this effect if 'conversation' changes
+
+
 
   const mdUp = useResponsive('up', 'md');
 
@@ -64,7 +84,7 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
       }
 
   
-      await clickConversation(conversation.id);
+      await clickConversation(conversation.id,parseInt(user.id));
       
       router.push(`${paths.dashboard.chat}?id=${conversation.id}`);
     } catch (error) {
@@ -91,6 +111,7 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
     </Badge>
   );
 
+  
   return (
     <ListItemButton
       disableGutters
@@ -106,7 +127,8 @@ export default function ChatNavItem({ selected, collapse, conversation, onCloseM
       <Badge
         color="error"
         overlap="circular"
-        badgeContent={collapse ? conversation.unreadCount : 0}
+        // badgeContent={collapse ? conversation.unreadCount : 0}
+        badgeContent={numberOfUnread}
       >
         {group ? renderGroup : renderSingle}
       </Badge>
