@@ -2,6 +2,7 @@ import React from 'react';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ChatView } from './chat/view';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import DashboardNavbar from '../../examples/Navbars/DashboardNavbar'
 // import ThemeProvider from './theme/index';
 import SocketClient from './chat/socketClient';
 
@@ -13,11 +14,14 @@ const theme = createTheme({
 
 function App() {
   return (
+    <>
+    <DashboardNavbar/>
     <ThemeProvider theme={theme}   >
       <SocketClient>
         <ChatView />
       </SocketClient>
     </ThemeProvider>
+    </>
   );
 }
 

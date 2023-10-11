@@ -73,7 +73,10 @@ socket.on('send-back-message', (message) => {  // use once instead of on to avoi
 });
 console.log('baby message', newMessage)
 
-
+let [updateMessagesStatus, setUpdateMessagesStatus] = useState(false);
+socket.on('update-clicked-conversation',()=>{
+  setUpdateMessagesStatus(true);
+})
 
   const { contacts } = useGetContacts();
 
@@ -81,10 +84,29 @@ console.log('baby message', newMessage)
 
   const { conversation, conversationError } = useGetConversation(`${selectedConversationId}`);
 
-  // console.log('conversationsssssssssssssssssssssssss', conversation);
-  console.log('my messssages', conversation?.messages); 
+  console.log('conversationsssssssssssssssssssssssss', conversations);
+  // console.log('my messssages', conversation?.messages); 
   // console.log('my participants before', conversation?.participants);
   // console.log('my contact', user);
+
+
+  //update messages status from unseen to seen for the clicked conversation
+  useEffect(() => {
+    if (conversations && updateMessagesStatus) {
+      // Object.values will extract all values from the 'conversations' object into an array
+      Object.values(conversations).forEach((conversation) => {
+        if (conversation.id === parseInt(selectedConversationId)) {
+          conversation.messages.forEach((message) => {
+            if (message.senderId !== parseInt(user.id) && message.status === 'unseen') {
+              message.status = 'seen';
+            }
+          });
+        }
+      });
+    }
+    setUpdateMessagesStatus(false);
+  }, [updateMessagesStatus]);
+  
 
   //update the conversation object with the new message
   if(newMessage && Object.keys(newMessage).length !== 0){
@@ -182,7 +204,7 @@ console.log('baby message', newMessage)
 
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'} style={{ width: 'auto' }} >
+    <Container maxWidth={settings.themeStretch ? false : 'xl'} style={{ width: 'auto',marginTop:'-5%',marginLeft:'-10%' }} >
       <Typography
         variant="h4"
         sx={{
