@@ -138,9 +138,10 @@ function ChargerPage() {
                   <MenuItem value="">
                     Choose The Charger Type
                   </MenuItem>
-                  <MenuItem value="type1">Type 1</MenuItem>
-                  <MenuItem value="type2">Type 2</MenuItem>
-                  <MenuItem value="type3">Type 3</MenuItem>
+                  <MenuItem value="Level 1- 110 V">Level 1- 110 V</MenuItem>
+              <MenuItem value="Level 2- 220 V">Level 2- 220 V</MenuItem>
+              <MenuItem value="Level 3- 440 V">Level 3- 440 V</MenuItem>
+         
                 </Select>
               </Grid>
 

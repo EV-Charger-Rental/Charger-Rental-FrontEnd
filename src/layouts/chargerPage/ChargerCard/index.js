@@ -68,7 +68,7 @@ function ChargerCard({
   const updateCharger = async () => {
     const userId = cookie.load("userId");
     const chargerLat = cookie.load("selectedLatitude");
-    const chargerLong = cookie.load("selectedLongitude"); 
+    const chargerLong = cookie.load("selectedLongitude");
     if (!userId) {
       console.error("User ID not available");
       return;
@@ -242,9 +242,9 @@ function ChargerCard({
               inputProps={{ "aria-label": "ChargerType" }}
               sx={{ marginTop: 2 }}
             >
-              <MenuItem value="type1">Type 1</MenuItem>
-              <MenuItem value="type2">Type 2</MenuItem>
-              <MenuItem value="type3">Type 3</MenuItem>
+                  <MenuItem value="Level 1- 110 V">Level 1- 110 V</MenuItem>
+              <MenuItem value="Level 2- 220 V">Level 2- 220 V</MenuItem>
+              <MenuItem value="Level 3- 440 V">Level 3- 440 V</MenuItem>
             </Select>
           </MenuItem>
 

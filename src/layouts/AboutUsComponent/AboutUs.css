@@ -21,7 +21,7 @@
 
 .content-container {
   /* background-color: #ccc; */
-  color: black;
+  color: gainsboro;
   padding: 20px;
   border-radius: 8px;
   display: flex;
@@ -74,7 +74,7 @@
   z-index: 1;
   position: relative;
   padding: 10px;
-  border: 2px solid #FFD300;
+  border: 2px solid #004555;
 }
 
 .snip1515 .profile-image img {
@@ -84,7 +84,7 @@
 
 .snip1515 figcaption {
   width: 100%;
-  background-color: rgb(33,37,41);
+  background-color: #004555;
   color: whitesmoke;
   padding: 125px 25px 25px;
   margin-top: -100px;
@@ -123,10 +123,10 @@
 .snip1515 i {
   padding: 10px 2px;
   display: inline-block;
-  font-size: 18px;
+  font-size: 25px;
   font-weight: normal;
-  color: #FFD300;
-  opacity: 0.75;
+  color: whitesmoke;
+  opacity: 0.9;
 }
 
 .snip1515 i:hover {
