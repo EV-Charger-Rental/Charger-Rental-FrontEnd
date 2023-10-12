@@ -7,7 +7,7 @@ import SoftTypography from "components/SoftTypography";
 import SoftInput from "components/SoftInput";
 import SoftButton from "components/SoftButton";
 import CoverLayout from "layouts/authentication/components/CoverLayout";
-import curved9 from "assets/images/curved-images/curved-6.jpg";
+import img1 from "../../../assets/images/curved-images/electric-vehicle-charger-featured.jpg";
 import Header from 'layouts/profile/components/Header';
 import { useDispatch } from 'react-redux';
 import jwt_decode from 'jwt-decode';
@@ -44,7 +44,7 @@ function SignIn() {
     <CoverLayout
       title="Welcome back"
       description="Enter your username and password to sign in"
-      image={curved9}
+      image={img1}
     >
      
       <SoftBox component="form" role="form">

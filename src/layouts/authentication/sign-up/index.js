@@ -9,7 +9,7 @@ import SoftButton from "components/SoftButton";
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 import Socials from "layouts/authentication/components/Socials";
 import Separator from "layouts/authentication/components/Separator";
-import curved6 from "assets/images/curved-images/curved14.jpg";
+import curved6 from "assets/images/curved-images/bigstock-Electric-Vehicle-Charging-Stat-433580789_1024X684.png";
 import { useNavigate } from "react-router-dom";
 import { FormatIndentDecreaseSharp } from "@mui/icons-material";
 
